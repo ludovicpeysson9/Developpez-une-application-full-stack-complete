@@ -1,0 +1,32 @@
+<div class="app-bar">
+    <div class="app-bar-content">
+        <!-- Logo de gauche -->
+        <img src="/assets/logo_p6.png" alt="MDD Logo" class="logo" />
+
+        <div class="app-bar-tabs">
+
+            <!-- Onglets (Articles et Thèmes) -->
+            <div class="app-bar-content">
+                <a
+                    class="tab"
+                    [class.active-tab]="this.activeTab === 'articles'"
+                    (click)="setActiveTab('articles')"
+                >
+                    Articles
+                </a>
+                <a
+                    class="tab"
+                    [class.active-tab]="this.activeTab === 'themes'"
+                    (click)="setActiveTab('themes')"
+                >
+                    Thèmes
+                </a>
+            </div>
+
+            <!-- Avatar utilisateur -->
+            <div class="user-avatar">
+                <span class="material-icons avatar-icon">account_circle</span>
+            </div>
+        </div>
+    </div>
+</div>

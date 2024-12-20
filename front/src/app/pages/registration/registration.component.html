@@ -1,0 +1,36 @@
+<div class="registration-container">
+    <!-- App Bar pour tablette et desktop -->
+    <app-app-bar *ngIf="isTablet || (!isMobile && !isTablet)"></app-app-bar>
+
+    <!-- Logo pour mobile -->
+    <div *ngIf="isMobile" class="logo-mobile">
+        <img class="logo" src="/assets/logo_p6.png" alt="MDD Logo" />
+    </div>
+
+    <!-- Formulaire d'inscription -->
+    <div class="registration-content">
+        <h2 class="title">Inscription</h2>
+
+        <form class="form">
+            <div>
+                <label for="username" class="form-label">Nom d'utilisateur</label>
+                <input type="text" id="username" class="form-input" />
+            </div>
+
+
+            <div>
+                <label for="email" class="form-label">Adresse e-mail</label>
+                <input type="email" id="email" class="form-input" />
+            </div>
+
+
+            <div>
+                <label for="password" class="form-label">Mot de passe</label>
+                <input type="password" id="password" class="form-input" />
+            </div>
+
+
+            <button type="submit" class="submit-button">S'inscrire</button>
+        </form>
+    </div>
+</div>

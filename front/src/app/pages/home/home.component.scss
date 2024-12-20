@@ -1,7 +1,70 @@
-.center {
-  height: 100vh;
+/* Conteneur principal */
+.home-container {
   display: flex;
-  justify-content: center;
-  align-items: center;
   flex-direction: column;
+  justify-content: center; /* Centre verticalement */
+  align-items: center; /* Centre horizontalement */
+  height: 100vh; /* Pleine hauteur */
+  background-color: #ffffff; /* Fond blanc */
+  text-align: center;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+/* Logo */
+.logo {
+  width: 35vw; /* Taille plus grande pour le logo */
+  margin-bottom: 3rem; /* Espacement sous le logo */
+}
+
+/* Groupe de boutons */
+.button-group {
+  display: flex;
+  flex-direction: row; /* Alignement horizontal par défaut */
+  gap: 8rem; /* Grand espacement entre les boutons */
+}
+
+/* Boutons */
+.action-button {
+  width: 14.5vw;
+  font-size: 1.1vw; /* Taille de police augmentée */
+  font-weight: 600; /* Police en gras */
+  padding: 0.8rem 1.5rem; /* Boutons plus gros */
+  color: #000000; /* Texte noir */
+  background-color: #ffffff; /* Fond blanc */
+  border: 2px solid #000000; /* Bordure noire */
+  border-radius: 8px; /* Coins arrondis */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Effet hover */
+.action-button:hover {
+  background-color: #f0f0f0; /* Légère teinte grise au survol */
+}
+
+/* Responsive pour mobile */
+@media (max-width: 768px) {
+  .button-group {
+    flex-direction: column; /* Boutons en colonne */
+    gap: 1.5rem; /* Réduction de l'espacement entre les boutons */
+  }
+
+  .logo {
+    width: 50vw; /* Logo réduit pour les petits écrans */
+    margin-bottom: 2rem; /* Espacement ajusté */
+  }
+
+  .action-button {
+    width: 40vw;
+    font-size: 2vw; /* Taille de police augmentée */
+    font-weight: 600; /* Police en gras */
+    padding: 0.8rem 1.5rem; /* Boutons plus gros */
+    color: #000000; /* Texte noir */
+    background-color: #ffffff; /* Fond blanc */
+    border: 2px solid #000000; /* Bordure noire */
+    border-radius: 8px; /* Coins arrondis */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
 }
