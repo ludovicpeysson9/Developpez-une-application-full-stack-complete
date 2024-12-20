@@ -1,0 +1,93 @@
+/* Conteneur principal */
+.registration-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 1rem;
+    box-sizing: border-box;
+}
+
+/* App Bar (Desktop uniquement) */
+.app-bar-desktop {
+    display: block; /* Visible par défaut */
+    width: 100%;
+}
+
+/* Logo Mobile (Mobile uniquement) */
+.logo-mobile {
+    display: none; /* Caché par défaut */
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.logo {
+    width: 35vw; /* Taille par défaut */
+}
+
+/* Contenu du formulaire */
+.registration-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 30vw;
+    text-align: left;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.form-input {
+    padding: 0.8rem;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.submit-button {
+    width: 60%;
+    padding: 0.8rem;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #7d5af5;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: center;
+}
+
+.submit-button:hover {
+    background-color: #5d3cc4;
+}
+
+/* Media Query pour Mobile */
+@media (max-width: 768px) {
+    /* Cache l'App Bar sur mobile */
+    .app-bar-desktop {
+        display: none; 
+    }
+
+    /* Affiche le logo uniquement sur mobile */
+    .logo-mobile {
+        display: block;
+    }
+
+    .logo {
+        width: 50vw; /* Taille ajustée pour le mobile */
+    }
+
+    .registration-content {
+        max-width: 60vw;
+    }
+}

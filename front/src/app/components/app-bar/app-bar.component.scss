@@ -1,0 +1,74 @@
+/* Bande principale de l'AppBar */
+.app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Espacement entre les éléments */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6vw;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+}
+
+/* Contenu de l'AppBar */
+.app-bar-content {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    justify-content: space-between;
+    width: 100%;
+}
+
+/* Logo */
+.logo {
+    height: 6vw;
+    width: auto;
+}
+
+/* Onglets (Articles et Thèmes) */
+.app-bar-tabs {
+    display: flex;
+    gap: 3rem; /* Espacement entre les onglets */
+    margin-left: auto; /* Aligne les onglets à droite */
+    margin-right: 1.5rem; /* Espacement entre les onglets et l'avatar */
+}
+
+/* Onglet actif */
+.tab.active-tab {
+    color: #6C5CCF; /* Couleur de l'onglet actif */
+}
+
+.tab {
+    font-family: 'Inter', sans-serif;
+    font-size: 1rem;
+    text-decoration: none;
+    color: #000000; /* Couleur par défaut */
+    transition: color 0.3s ease;
+}
+
+.tab:hover {
+    color: #6C5CCF; /* Couleur au survol */
+}
+
+/* Avatar utilisateur */
+.user-avatar {
+    margin-left: auto;
+}
+
+.avatar-icon {
+    font-size: 2.5rem; /* Taille de l'icône */
+    color: #000000; /* Couleur par défaut */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.avatar-icon:hover {
+    color: #6C5CCF; /* Couleur au survol */
+}
+
