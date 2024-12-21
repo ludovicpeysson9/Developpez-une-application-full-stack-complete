@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
     providedIn: 'root'
 })
 export class ScreenService {
-    private screenWidth = new BehaviorSubject<number>(window.innerWidth);
+    private readonly screenWidth = new BehaviorSubject<number>(window.innerWidth);
 
     constructor() {
         window.addEventListener('resize', () => {

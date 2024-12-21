@@ -9,6 +9,8 @@ import { RegistrationComponent } from './pages/registration/registration.compone
 import { AppBarComponent } from './components/app-bar/app-bar.component';
 import { ConnexionComponent } from './pages/connexion/connexion.component';
 import { ArticlesComponent } from './pages/articles/articles.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './services/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, RegistrationComponent, AppBarComponent, ConnexionComponent, ArticlesComponent],
@@ -18,7 +20,13 @@ import { ArticlesComponent } from './pages/articles/articles.component';
     BrowserAnimationsModule,
     MatButtonModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
