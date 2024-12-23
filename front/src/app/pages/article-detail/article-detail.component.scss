@@ -1,0 +1,147 @@
+.article-detail-container {
+    padding: 1rem;
+    margin-top: calc(6.5vw + 1rem); /* Responsive margin-top pour éviter qu'elle soit cachée sous la appbar */
+    box-sizing: border-box;
+
+    .back-button {
+        margin-bottom: 1rem;
+
+        .back-btn {
+            background-color: transparent;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6C5CCF;
+        }
+    }
+
+    .article-content {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto; /* Centre le contenu */
+        text-align: left; /* Alignement à gauche */
+
+        .article-title {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #333; /* Titre en noir */
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            font-size: 1rem;
+            color: gray;
+            margin-bottom: 1rem;
+
+            span {
+                display: inline-block;
+            }
+        }
+
+        .article-body {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 2rem;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid #ddd;
+            margin: 2rem 0;
+            width: 100%;
+        }
+    }
+
+    .comments-section {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+
+        .comments-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #333;
+        }
+
+        .comment {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+
+            .comment-avatar {
+                flex-shrink: 0;
+                width: 40px;
+                height: 40px;
+                background-color: #6C5CCF;
+                border-radius: 50%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: white;
+                font-weight: bold;
+                font-size: 1rem;
+                margin-right: 1rem;
+            }
+
+            .comment-content {
+                flex: 1;
+
+                .comment-username {
+                    font-weight: bold;
+                    font-size: 1rem;
+                    margin-bottom: 0.2rem;
+                    color: #333;
+                }
+
+                p {
+                    margin: 0;
+                    font-size: 0.9rem;
+                    color: #333;
+                }
+            }
+        }
+
+        .add-comment {
+            display: flex;
+            align-items: center;
+            margin-top: 2rem;
+
+            textarea {
+                flex-grow: 1;
+                resize: none;
+                padding: 0.8rem;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 1rem;
+                box-sizing: border-box;
+                margin-right: 1rem;
+            }
+
+            button {
+                background-color: #6C5CCF;
+                color: white;
+                border: none;
+                border-radius: 50%;
+                width: 50px;
+                height: 50px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+                .material-icons {
+                    font-size: 1.5rem;
+                }
+
+                &:hover {
+                    background-color: #5a4bbf;
+                }
+            }
+        }
+    }
+}

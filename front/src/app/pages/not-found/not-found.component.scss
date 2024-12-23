@@ -1,0 +1,116 @@
+/* Conteneur principal */
+.error-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    /* Prend toute la hauteur de la fenêtre */
+    background-color: #ffffff;
+    /* Couleur de fond blanche */
+    margin: 0;
+    text-align: center;
+    /* Centre le contenu */
+}
+
+/* Contenu de l'erreur */
+.error-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    /* Espacement entre les éléments */
+}
+
+/* Titre 404 */
+.error-title {
+    font-family: 'Inter', sans-serif;
+    /* Police Inter */
+    font-size: 8rem;
+    /* Taille de police */
+    font-weight: bold;
+    /* Gras */
+    color: #6C5CCF;
+    /* Violet donné */
+    margin: 0;
+    margin-bottom: 3vw;
+}
+
+/* Sous-titre "Not Found" */
+.error-subtitle {
+    font-family: 'Inter', sans-serif;
+    /* Police Inter */
+    font-size: 1.5rem;
+    /* Taille de police */
+    font-weight: 400;
+    /* Normal */
+    color: #737373;
+    /* Gris */
+    margin: 0;
+    margin-bottom: 1vw;
+}
+
+/* Bouton */
+.error-button {
+    font-family: 'Inter', sans-serif;
+    /* Police Inter */
+    font-size: 1rem;
+    /* Taille de police */
+    font-weight: 600;
+    /* Semi-gras */
+    color: #ffffff;
+    /* Texte blanc */
+    background-color: #6C5CCF;
+    /* Violet donné */
+    border: none;
+    /* Retire la bordure */
+    padding: 0.75rem 1.5rem;
+    /* Espacement interne */
+    border-radius: 5px;
+    /* Coins arrondis */
+    cursor: pointer;
+    /* Curseur cliquable */
+    transition: background-color 0.3s ease;
+    /* Transition pour l'hover */
+}
+
+.error-button:hover {
+    background-color: #5847b6;
+    /* Violet plus foncé au survol */
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .error-title {
+        font-size: 6rem;
+        /* Taille réduite pour les tablettes */
+    }
+
+    .error-subtitle {
+        font-size: 1.25rem;
+        /* Taille réduite pour les tablettes */
+    }
+
+    .error-button {
+        font-size: 0.9rem;
+        /* Taille réduite pour les tablettes */
+    }
+}
+
+@media (max-width: 461px) {
+    .error-title {
+        font-size: 4rem;
+        /* Taille réduite pour les petits écrans */
+    }
+
+    .error-subtitle {
+        font-size: 1rem;
+        /* Taille réduite pour les petits écrans */
+    }
+
+    .error-button {
+        font-size: 0.8rem;
+        /* Taille réduite pour les petits écrans */
+        padding: 0.5rem 1rem;
+        /* Espacement interne réduit */
+    }
+}

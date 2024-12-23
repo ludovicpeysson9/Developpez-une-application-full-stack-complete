@@ -1,0 +1,12 @@
+<div class="themes-container">
+    <app-app-bar></app-app-bar>
+
+    <!-- Liste des thèmes -->
+    <div class="themes-grid">
+        <div class="theme-card" *ngFor="let theme of themes">
+            <h3 class="theme-title">{{ theme.name }}</h3>
+            <p class="theme-content">{{ theme.content }}...</p>
+            <button class="subscribe-button">S'abonner</button>
+        </div>
+    </div>
+</div>

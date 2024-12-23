@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
+import { ArticleService } from '../../services/article.service';
+import { Article } from '../../models/article.model';
 
 @Component({
   selector: 'app-articles',
@@ -11,60 +14,13 @@ export class ArticlesComponent implements OnInit {
   isMobile: boolean = false;
   isTablet: boolean = false;  
 
-  // Exemple de données pour les articles
-  articles = [
-    {
-      title: 'Titre de l’article 1',
-      date: '01/12/2024',
-      author: 'Auteur 1',
-      content:
-        'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin a lorem ut sem hendrerit fringilla. Duis non elit metus. Fusce tincidunt purus non velit tincidunt, nec molestie risus feugiat.,consectetur adipiscing elit. Proin a lorem ut sem hendrerit fringilla. Duis non elit metus. Fusce tincidunt purus non velit tincidunt, nec molestie risus feugiat.'
-    },
-    {
-      title: 'Titre de l’article 2',
-      date: '02/12/2024',
-      author: 'Auteur 2',
-      content:
-        'Praesent condimentum lorem nec sem ultricies, vitae tincidunt elit consequat. Nullam interdum, magna in volutpat laoreet, nulla ligula congue lorem, ut consectetur magna lorem nec ligula.'
-    },
-    {
-      title: 'Titre de l’article 3',
-      date: '03/12/2024',
-      author: 'Auteur 3',
-      content:
-        'Fusce faucibus purus quis nisl aliquam, ac consequat odio hendrerit. Suspendisse non neque a metus vehicula congue at nec magna. Nulla id felis ut velit auctor tincidunt.  faucibus purus quis nisl aliquam, ac consequat odio hendrerit. Suspendisse non neque a metus vehicula congue at nec magna. Nulla id felis ut velit auctor tincidunt.'
-    },
-    {
-      title: 'Titre de l’article 2',
-      date: '02/12/2024',
-      author: 'Auteur 2',
-      content:
-        'Praesent condimentum lorem nec sem ultricies, vitae tincidunt elit consequat. Nullam interdum, magna in volutpat laoreet, nulla ligula congue lorem, ut consectetur magna lorem nec ligula.'
-    },
-    {
-      title: 'Titre de l’article 2',
-      date: '02/12/2024',
-      author: 'Auteur 2',
-      content:
-        'Praesent condimentum lorem nec sem ultricies, vitae tincidunt elit consequat.  faucibus purus quis nisl aliquam, ac consequat odio hendrerit. Suspendisse non neque a metus vehicula congue at nec magna. Nulla id felis ut velit auctor tincidunt.Nullam interdum, magna in volutpat laoreet, nulla ligula congue lorem, ut consectetur magna lorem nec ligula.'
-    },
-    {
-      title: 'Titre de l’article 2',
-      date: '02/12/2024',
-      author: 'Auteur 2',
-      content:
-        'Praesent condimentum lorem nec sem ultricies, vitae tincidunt elit consequat. Nullam interdum, magna in volutpat laoreet, nulla ligula congue lorem, ut consectetur magna lorem nec ligula.'
-    },
-    {
-      title: 'Titre de l’article 2',
-      date: '02/12/2024',
-      author: 'Auteur 2',
-      content:
-        'Praesent condimentum lorem nec sem ultricies, vitae tincidunt elit consequat. Nullam interdum, magna in volutpat laoreet, nulla ligula congue lorem, ut consectetur magna lorem nec ligula.'
-    },
-  ];
+  articles: Article[] = [];
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private articleService: ArticleService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.breakpointObserver.observe([
@@ -75,5 +31,23 @@ export class ArticlesComponent implements OnInit {
       this.isTablet = result.breakpoints['(min-width: 769px) and (max-width: 960px)'] || false;
     });
 
+    this.loadArticles();
+
   }
+
+  loadArticles(): void {
+    this.articleService.getArticles().subscribe(articles => {
+      this.articles = articles; // Stocke les articles récupérés dans la variable articles
+    });
+  }
+
+  goToCreateArticle() {
+    console.log('Navigating to create article page');
+    this.router.navigate(['/createArticle']);
+  }
+
+  goToArticle(id: string) {
+    this.router.navigate(['/article', id]);
+  }
+
 }

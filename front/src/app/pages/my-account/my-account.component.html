@@ -1,0 +1,26 @@
+<div class="profile-container">
+    <app-app-bar></app-app-bar>
+
+    <div class="profile-content">
+        <!-- Profil utilisateur -->
+        <h1 class="profile-title">Profil utilisateur</h1>
+        <form class="profile-form">
+            <input type="text" name="username" class="profile-input" placeholder="Username" [(ngModel)]="username">
+            <input type="email" name="email" class="profile-input" placeholder="email@email.fr" [(ngModel)]="email">
+            <button type="button" class="save-btn" (click)="saveProfile()">Sauvegarder</button>
+            <button type="button" class="logout-btn" (click)="logout()">Se déconnecter</button>
+        </form>
+
+        <hr class="separator">
+
+        <!-- Abonnements -->
+        <h2 class="subscriptions-title">Abonnements</h2>
+        <div class="subscriptions">
+            <div class="subscription-card" *ngFor="let theme of subscriptions">
+                <h3 class="subscription-title">{{ theme.name }}</h3>
+                <p class="subscription-description">{{ theme.content }}</p>
+                <button type="button" class="unsubscribe-btn" (click)="unsubscribe(theme.id)">Se désabonner</button>
+            </div>
+        </div>
+    </div>
+</div>
