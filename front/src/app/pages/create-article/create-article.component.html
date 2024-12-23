@@ -1,0 +1,34 @@
+<div class="app-bar-container">
+    <app-app-bar></app-app-bar>
+</div>
+
+<div class="new-article-container">
+    <div class="back-button">
+        <button class="back-btn" (click)="goBack()">&#x2190;</button>
+    </div>
+    <h1>Créer un nouvel article</h1>
+    <div class="form-container">
+        <form (ngSubmit)="onSubmit()" #articleForm="ngForm">
+            <!-- Sélection du thème -->
+            <select class="input-field" name="theme" [(ngModel)]="theme" required>
+                <option value="" disabled selected>Sélectionner un thème</option>
+                <option *ngFor="let theme of themes" [value]="theme.name">
+                    {{ theme.name }}
+                </option>
+            </select>
+
+            <!-- Titre -->
+            <input class="input-field" type="text" placeholder="Titre de l'article" name="title" [(ngModel)]="title"
+                required />
+
+            <!-- Contenu -->
+            <textarea class="textarea-field" placeholder="Contenu de l'article" name="content" [(ngModel)]="content"
+                required></textarea>
+
+            <!-- Bouton Créer -->
+            <button type="submit" class="submit-btn" [disabled]="!articleForm.form.valid">
+                Créer
+            </button>
+        </form>
+    </div>
+</div>

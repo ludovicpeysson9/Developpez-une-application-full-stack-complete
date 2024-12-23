@@ -1,10 +1,10 @@
 <div class="articles-container">
 
-    <app-app-bar *ngIf="isTablet || (!isMobile && !isTablet)"></app-app-bar>
+    <app-app-bar></app-app-bar>
 
     <!-- Barre d'actions -->
     <div class="actions">
-        <button class="create-article-button">Créer un article</button>
+        <button class="create-article-button" (click)="goToCreateArticle()">Créer un article</button>
         <button class="sort-button">
             Trier par <span class="material-icons">arrow_drop_down</span>
         </button>
@@ -12,7 +12,8 @@
 
     <!-- Liste des articles -->
     <div class="articles-grid">
-        <div class="article-card" *ngFor="let article of articles">
+        <div class="article-card" *ngFor="let article of articles" (click)="goToArticle(article.id)">
+            <span class="article-theme">{{ article.theme }}</span>
             <h3 class="article-title">{{ article.title }}</h3>
             <div class="article-meta">
                 <span class="article-date">{{ article.date }}</span>

@@ -7,7 +7,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    height: 6vw;
+    height: 6.5vw;
     background-color: #ffffff;
     border-bottom: 1px solid #e0e0e0;
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -27,13 +27,17 @@
 
 /* Logo */
 .logo {
-    height: 6vw;
+    height: 6.5vw;
     width: auto;
 }
 
 /* Onglets (Articles et Thèmes) */
 .app-bar-tabs {
     display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    align-items: center;
+    cursor: pointer;
     gap: 3rem; /* Espacement entre les onglets */
     margin-left: auto; /* Aligne les onglets à droite */
     margin-right: 1.5rem; /* Espacement entre les onglets et l'avatar */
@@ -62,13 +66,185 @@
 }
 
 .avatar-icon {
-    font-size: 2.5rem; /* Taille de l'icône */
-    color: #000000; /* Couleur par défaut */
+    width: 1.8vw; /* Taille de l'icône */
+    color: #737373; /* Couleur par défaut */
+    z-index: 5;
     cursor: pointer;
     transition: color 0.3s ease;
 }
 
 .avatar-icon:hover {
-    color: #6C5CCF; /* Couleur au survol */
+    fill: #6C5CCF; /* Couleur au survol */
+    transition: fill 0.3s ease;
 }
 
+.avatar-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D9D9D9;
+    border-radius: 50%; /* Assure un cercle parfait */
+    width: 2.2vw; /* Largeur du cercle */
+    height: 2.2vw; /* Hauteur du cercle */
+    padding: 0.5vw; /* Espacement interne pour éviter que l'image touche les bords */
+}
+
+.avatar-background:hover {
+    border: 4px solid #6C5CCF;
+    .avatar-icon{
+        fill: #6C5CCF;
+    }
+}
+
+.avatar-background:hover:not(.active-account) {
+    border: 4px solid #6C5CCF;
+}
+
+.avatar-background:not(.active-account) .avatar-icon:hover {
+    fill: #6C5CCF; /* Assure que le SVG change de couleur seulement lors du survol, et pas sur myAccount */
+}
+
+.avatar-background.active-account {
+    border: 4px solid #6C5CCF; /* Fixe la couleur de la bordure lorsqu'on est sur myAccount */
+}
+
+.avatar-background.active-account .avatar-icon {
+    fill: #6C5CCF; /* Fixe la couleur du SVG lorsqu'on est sur myAccount */
+}
+
+/* Bouton menu pour mobile/tablette */
+.menu-button {
+    display: none; /* caché par défaut */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px; /* taille de l'icône du menu */
+}
+
+/* Style pour l'icône du menu */
+.menu-button .material-icons {
+    font-size: 2.5rem;
+}
+
+@media (max-width: 768px) {
+    .menu-button {
+        display: block; /* visible sur mobile/tablette */
+    }
+
+    .app-bar-tabs {
+        display: none; /* Cache les onglets par défaut sur mobile */
+    }
+
+    .app-bar-content {
+        justify-content: space-between; /* Espacement sur mobile */
+    }
+    .app-bar {
+        height: 12vw;
+    }
+    
+    .logo {
+        height: 12vw;
+        width: auto;
+    }
+}
+
+@media (max-width: 461px) {
+    .menu-button {
+        display: block; /* Assure que le menu burger est toujours visible sur les très petits écrans */
+    }
+
+    .app-bar {
+        height: 15vw;
+    }
+    
+    .logo {
+        height: 15vw;
+        width: auto;
+    }
+}
+
+mat-sidenav-container {
+    position: relative; /* Permet au contenu de bouger */
+    z-index: 1; /* Maintient le conteneur sous le menu */
+    overflow: hidden !important;
+}
+
+mat-sidenav {
+    position: fixed;
+    right: 0;
+    width: 50vw; /* Largeur du menu */
+    //height: calc(100vh - 12vw); /* Ajuste la hauteur en fonction de la barre supérieure */
+    background: #ffffff; /* Couleur de fond */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2); /* Ombre du menu */
+    margin-top: 12vw; /* Compense la hauteur de la barre supérieure */
+    overflow: hidden !important; /* Empêche le défilement interne */
+    z-index: 11;
+    display: flex;
+    flex-direction: row;
+}
+
+.mat-nav-list {
+    display: flex;
+    flex-direction: column;    
+    overflow: hidden !important; /* Permet le défilement si le contenu dépasse, tout en maintenant le sidenav fixe */
+    justify-content: flex-start; /* Articles en haut, profil en bas */
+    padding: 0;
+    margin: 0;
+    justify-self: center;
+}
+
+mat-sidenav-content {
+    overflow: visible; /* Permet au contenu principal d'être visible */
+    position: relative;
+    z-index: 1;
+    pointer-events: none;
+}
+
+mat-sidenav-content.menu-open {
+    pointer-events: auto; /* Réactive les interactions lorsque le menu est fermé */
+}
+
+.mat-drawer-content{
+    height: 0;
+}
+
+.sidenav-user-profile {
+    position: absolute; /* Position absolue pour placer en bas à droite */
+    bottom: 1rem; /* Espacement depuis le bas */
+    right: 1rem; /* Espacement depuis la droite */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sidenav-user-profile .avatar-background {
+    width: 4vw; /* Largeur agrandie */
+    height: 4vw; /* Hauteur agrandie */
+    padding: 0.7vw; /* Espacement interne ajusté */
+}
+
+.sidenav-user-profile .avatar-icon {
+    width: 3vw; /* Taille agrandie de l'icône */
+    height: auto;
+}
+
+/* Par défaut, pas de filtre */
+mat-sidenav-container::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0); /* Aucun fond */
+    z-index: 10;
+    pointer-events: none; /* Ne bloque pas les clics */
+    transition: background 0.3s ease; /* Animation douce pour l'apparition du fond */
+}
+
+/* Filtre actif uniquement lorsque le menu est ouvert */
+mat-sidenav-container.backdrop-visible::after {
+    background: rgba(239, 239, 239, 0.7);
+    /* Filtre gris */
+    pointer-events: auto; /* Bloque les clics pour fermer */
+}

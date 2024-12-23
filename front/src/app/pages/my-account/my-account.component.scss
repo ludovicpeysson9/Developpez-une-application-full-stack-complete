@@ -1,0 +1,118 @@
+.profile-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.profile-content {
+    margin-top: 10vw;
+    padding: 1rem;
+    text-align: center;
+    @media (max-width: 768px) {
+        margin-top: 18vw /* Augmente la margin-top pour mobile */
+    }
+    @media (max-width: 500px) {
+        margin-top: 25vw /* Augmente la margin-top pour mobile */
+    }
+
+    .profile-title {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 2rem;
+    }
+
+    .profile-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        .profile-input {
+            width: 90%;
+            max-width: 500px;
+            padding: 0.8rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .save-btn {
+            background-color: #6C5CCF;
+            color: white;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .logout-btn {
+            background-color: transparent;
+            color: #ff4d4d;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+    }
+
+    .separator {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 2rem 0;
+        width: 100%;
+    }
+
+    .subscriptions-title {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 1.5rem;
+    }
+
+    .subscriptions {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr); /* 2 colonnes par ligne */
+        gap: 1rem; /* Espacement entre les cartes */
+    
+        @media (max-width: 768px) {
+            grid-template-columns: 1fr; /* 1 colonne par ligne en mobile */
+        }
+    
+        .subscription-card {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    
+            .subscription-title {
+                font-size: 1.2rem;
+                font-weight: bold;
+                color: #333;
+                margin-bottom: 0.5rem;
+            }
+    
+            .subscription-description {
+                font-size: 0.9rem;
+                color: #666;
+                margin-bottom: 1rem;
+            }
+    
+            .unsubscribe-btn {
+                background-color: #6C5CCF;
+                color: white;
+                border: none;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
+    }
+    
+}

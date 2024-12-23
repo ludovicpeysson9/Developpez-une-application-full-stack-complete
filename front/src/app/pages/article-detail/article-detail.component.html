@@ -1,0 +1,46 @@
+<div class="article-detail-container">
+    <app-app-bar></app-app-bar>
+
+    <!-- Bouton retour -->
+    <div class="back-button">
+        <button class="back-btn" (click)="goBack()">&#x2190;</button>
+    </div>
+
+    <!-- Détails de l'article -->
+    <div class="article-content" *ngIf="article">
+        <h1 class="article-title">{{ article.title }}</h1>
+        <div class="article-meta">
+            <span>Date : {{ article.date }}</span>
+            <span>Auteur : {{ article.author }}</span>
+            <span>Thème : {{ article.theme }}</span>
+        </div>
+        <p class="article-body">{{ article.content }}</p>
+
+        <!-- Ligne de séparation -->
+        <hr />
+
+        <!-- Section des commentaires -->
+        <div class="comments-section">
+            <h2>Commentaires</h2>
+
+            <!-- Liste des commentaires -->
+            <div class="comment" *ngFor="let comment of comments">
+                <div class="comment-avatar">
+                    <div class="avatar-icon">{{ comment.username[0] }}</div>
+                </div>
+                <div class="comment-content">
+                    <span class="comment-username">{{ comment.username }}</span>
+                    <p>{{ comment.content }}</p>
+                </div>
+            </div>
+
+            <!-- Formulaire d'ajout de commentaire -->
+            <div class="add-comment">
+                <textarea [(ngModel)]="newComment" placeholder="Écrivez ici votre commentaire"></textarea>
+                <button (click)="addComment()">
+                    <span class="material-icons">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
