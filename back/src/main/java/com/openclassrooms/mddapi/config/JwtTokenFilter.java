@@ -30,13 +30,16 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                                     FilterChain filterChain) throws ServletException, IOException {
         try {
             String jwt = parseJwt(request);
+            System.out.println("JWT Token received: " + jwt);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
-                String username = jwtUtils.getUserNameFromJwtToken(jwt);
-                UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
+                Integer userId = jwtUtils.getUserIdFromJwtToken(jwt);
+                System.out.println("User ID from JWT Token: " + userId);
+                UserDetails userDetails = customUserDetailsService.loadUserById(userId);
                 if (userDetails != null) {
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails, null, userDetails.getAuthorities());
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+                    System.out.println("JWT Token validated and authentication set");
                 }
             }
         } catch (Exception e) {

@@ -2,12 +2,13 @@ package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.security.CustomUserDetails;
 import com.openclassrooms.mddapi.services.interfaces.CustomUserDetailsServiceInterface;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
+import java.util.Optional;
 
 @Service
 public class CustomUserDetailsService implements CustomUserDetailsServiceInterface {
@@ -20,27 +21,20 @@ public class CustomUserDetailsService implements CustomUserDetailsServiceInterfa
 
     @Override
     public UserDetails loadUserByUsername(String identifier) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(identifier);
-        if (user == null) {
-            user = userRepository.findByEmail(identifier);
-        }
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found with username or email: " + identifier);
-        }
-        return createSpringUser(user);
+        User user = findUserByIdentifier(identifier)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with username or email: " + identifier));
+        return CustomUserDetails.fromUserEntityToCustomUserDetails(user);
     }
 
-    /**
-     * Converts a User model to a Spring Security UserDetails object.
-     *
-     * @param user The User entity to convert.
-     * @return UserDetails object for authentication purposes.
-     */
-    private UserDetails createSpringUser(User user) {
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(), // Utilisez le nom d'utilisateur pour l'authentification
-                user.getPassword(),
-                Collections.emptyList() // No authorities are assigned to the user.
-        );
+    @Override
+    public UserDetails loadUserById(Integer id) throws UsernameNotFoundException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
+        return CustomUserDetails.fromUserEntityToCustomUserDetails(user);
+    }
+
+    private Optional<User> findUserByIdentifier(String identifier) {
+        return userRepository.findByUsername(identifier)
+                .or(() -> userRepository.findByEmail(identifier));
     }
 }

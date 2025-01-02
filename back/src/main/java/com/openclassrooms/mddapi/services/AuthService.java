@@ -1,8 +1,11 @@
 package com.openclassrooms.mddapi.services;
 
+import com.openclassrooms.mddapi.dto.AuthResponse;
 import com.openclassrooms.mddapi.dto.LoginRequest;
+import com.openclassrooms.mddapi.dto.RegisterRequest;
 import com.openclassrooms.mddapi.entities.User;
 import com.openclassrooms.mddapi.repositories.UserRepository;
+import com.openclassrooms.mddapi.security.CustomUserDetails;
 import com.openclassrooms.mddapi.services.interfaces.AuthServiceInterface;
 import com.openclassrooms.mddapi.config.JwtUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,36 +31,58 @@ public class AuthService implements AuthServiceInterface {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
-        System.out.println("Login attempt with identifier: " + loginRequest.getIdentifier());
-        User user = userRepository.findByUsername(loginRequest.getIdentifier());
-        if (user == null) {
-            System.out.println("User not found by username, trying email...");
-            user = userRepository.findByEmail(loginRequest.getIdentifier());
-        }
-        if (user == null) {
-            System.out.println("User not found by email either.");
+    public AuthResponse login(LoginRequest loginRequest) {
+        User user = findUserByIdentifier(loginRequest.getIdentifier());
+        validatePassword(loginRequest.getPassword(), user.getPassword());
+        String token = authenticateUser(loginRequest.getIdentifier(), loginRequest.getPassword());
+        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+    }
+
+    @Override
+    public AuthResponse register(RegisterRequest registerRequest) {
+        validateNewUser(registerRequest);
+        User user = createUser(registerRequest);
+        //String token = jwtUtils.generateJwtToken(user.getUsername(), user.getId());
+        String token = jwtUtils.generateJwtToken(user.getId());
+        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+    }
+
+    private User findUserByIdentifier(String identifier) {
+        return userRepository.findByUsername(identifier)
+                .orElseGet(() -> userRepository.findByEmail(identifier)
+                        .orElseThrow(() -> new IllegalArgumentException("Invalid username/email or password")));
+    }
+
+    private void validatePassword(String rawPassword, String encodedPassword) {
+        if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
             throw new IllegalArgumentException("Invalid username/email or password");
         }
-        System.out.println("User found: " + user.getUsername());
+    }
 
-        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
-            System.out.println("Password does not match.");
-            throw new IllegalArgumentException("Invalid username/email or password");
-        }
-        System.out.println("Password matches.");
-
-        // Utilisation de AuthenticationManager pour authentifier l'utilisateur
+    private String authenticateUser(String identifier, String password) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        loginRequest.getIdentifier(),
-                        loginRequest.getPassword()
-                )
+                new UsernamePasswordAuthenticationToken(identifier, password)
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+       //return jwtUtils.generateJwtToken(userDetails.getUsername(), userDetails.getId());
+        return jwtUtils.generateJwtToken(userDetails.getId());
+    }
 
-        String token = jwtUtils.generateJwtToken(user.getUsername(), user.getId());
-        System.out.println("Generated token: " + token);
-        return token;
+    private void validateNewUser(RegisterRequest registerRequest) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            throw new IllegalArgumentException("Email already in use");
+        }
+        if (userRepository.existsByUsername(registerRequest.getUsername())) {
+            throw new IllegalArgumentException("Username already in use");
+        }
+    }
+
+    private User createUser(RegisterRequest registerRequest) {
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setEmail(registerRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        return userRepository.save(user);
     }
 }
