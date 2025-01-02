@@ -41,10 +41,19 @@ public class JwtUtils {
      * @param userId The user ID that will be included in the token's claims.
      * @return A JWT string that represents the claims passed.
      */
-    public String generateJwtToken(String username, Integer userId) {
+    /*public String generateJwtToken(String username, Integer userId) {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("userId", userId)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
+                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .compact();
+    }*/
+
+    public String generateJwtToken(Integer userId) {
+        return Jwts.builder()
+                .setSubject(String.valueOf(userId)) // Utiliser l'ID de l'utilisateur comme sujet
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)
@@ -73,22 +82,12 @@ public class JwtUtils {
      * @return The user ID if valid, null if the token is invalid or expired.
      */
     public Integer getUserIdFromJwtToken(String token) {
-        try {
-            if (!validateJwtToken(token)) {
-                throw new IllegalArgumentException("Invalid or expired token");
-            }
-    
-            Claims claims = Jwts.parserBuilder()
-                    .setSigningKey(getSigningKey())
-                    .build()
-                    .parseClaimsJws(token)
-                    .getBody();
-            
-            return claims.get("userId", Integer.class);
-        } catch (Exception e) {
-            System.err.println("Error extracting user ID from token: " + e.getMessage());
-            return null;
-        }
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(getSigningKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+        return Integer.valueOf(claims.getSubject());
     }
 
     /**
