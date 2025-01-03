@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.ArticleDto;
+import com.openclassrooms.mddapi.services.UserSecurityService;
 import com.openclassrooms.mddapi.services.interfaces.ArticleServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +13,11 @@ import java.util.List;
 public class ArticleController {
 
     private final ArticleServiceInterface articleService;
+    private final UserSecurityService userSecurityService;
 
-    public ArticleController(ArticleServiceInterface articleService) {
+    public ArticleController(ArticleServiceInterface articleService, UserSecurityService userSecurityService) {
         this.articleService = articleService;
+        this.userSecurityService = userSecurityService;
     }
 
     @GetMapping
@@ -29,9 +32,13 @@ public class ArticleController {
         return ResponseEntity.ok(article);
     }
 
-    @PostMapping
+    @PostMapping("/createArticle")
     public ResponseEntity<ArticleDto> createArticle(@RequestBody ArticleDto articleDto) {
+        if (!userSecurityService.isOwner(articleDto.getAuthorId())) {
+            return ResponseEntity.status(403).build();
+        }
         ArticleDto createdArticle = articleService.createArticle(articleDto);
+        articleService.linkArticleToTheme(createdArticle.getId(), articleDto.getThemeId()); // Lier l'article au thème
         return ResponseEntity.ok(createdArticle);
     }
 }
