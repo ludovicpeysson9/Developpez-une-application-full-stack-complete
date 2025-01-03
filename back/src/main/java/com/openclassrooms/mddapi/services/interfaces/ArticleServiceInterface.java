@@ -8,4 +8,5 @@ public interface ArticleServiceInterface {
     List<ArticleDto> getAllArticles();
     ArticleDto getArticleById(Integer id);
     ArticleDto createArticle(ArticleDto articleDto);
+    void linkArticleToTheme(Integer articleId, Integer themeId);
 }
