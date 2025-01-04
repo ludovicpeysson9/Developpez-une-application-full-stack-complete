@@ -2,6 +2,7 @@ package com.openclassrooms.mddapi.mappers;
 
 import com.openclassrooms.mddapi.dto.ArticleDto;
 import com.openclassrooms.mddapi.entities.Article;
+import com.openclassrooms.mddapi.entities.Theme;
 import com.openclassrooms.mddapi.entities.User;
 
 import org.springframework.stereotype.Component;
@@ -15,8 +16,11 @@ public class ArticleMapper {
         dto.setContent(article.getContent());
         dto.setAuthorId(article.getAuthor().getId()); // Utiliser l'ID de l'auteur
         dto.setDate(article.getDate()); // Utiliser LocalDateTime directement
+        dto.setArticleAuthor(article.getAuthor().getUsername());
         if (article.getThemes() != null && !article.getThemes().isEmpty()) {
-            dto.setThemeId(article.getThemes().iterator().next().getId());
+            Theme theme = article.getThemes().iterator().next();
+            dto.setThemeId(theme.getId());
+            dto.setThemeTitle(theme.getTitle());
         }
         return dto;
     }

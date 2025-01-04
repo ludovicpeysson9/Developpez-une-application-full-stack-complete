@@ -3,6 +3,7 @@ import { Component, ElementRef, OnInit, OnDestroy, Renderer2 } from '@angular/co
 import { Router, NavigationEnd, Event as RouterEvent } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { RouteStateService } from 'src/app/services/route-state.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-app-bar',
@@ -17,9 +18,10 @@ export class AppBarComponent implements OnInit {
   isActiveAccountPage: boolean = false;
   isMobile: boolean = false;
   isTablet: boolean = false;
+  isLoggedIn: boolean = false;
   private clickListener?: () => void;
 
-  constructor(private breakpointObserver: BreakpointObserver, private router: Router, private routeStateService: RouteStateService, private renderer: Renderer2, private elementRef: ElementRef) {
+  constructor(private authService: AuthService, private breakpointObserver: BreakpointObserver, private router: Router, private routeStateService: RouteStateService, private renderer: Renderer2, private elementRef: ElementRef) {
     // Observer pour les mobiles
     this.breakpointObserver.observe([
       '(max-width: 461px)'
@@ -36,14 +38,16 @@ export class AppBarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.isLoggedIn();
+
     this.routeStateService.getCurrentUrl().subscribe(url => {
       const noAvatarAndTabsRoutes = ['/connexion', '/registration'];
       // Vérifie si la route actuelle est /myAccount
       this.isActiveAccountPage = url === '/myAccount';
       
       // Contrôle de l'affichage de l'avatar et des onglets en fonction des routes spécifiées
-      this.showUserAvatar = !noAvatarAndTabsRoutes.includes(url);
-      this.showTabs = !noAvatarAndTabsRoutes.includes(url);
+      this.showUserAvatar = !noAvatarAndTabsRoutes.includes(url) && this.isLoggedIn;
+      this.showTabs = !noAvatarAndTabsRoutes.includes(url) && this.isLoggedIn;
     });
   }
 
@@ -53,42 +57,42 @@ export class AppBarComponent implements OnInit {
     console.log("Current menuOpen state after toggle:", this.menuOpen);
   }*/
 
-    toggleMenu() {
-      this.menuOpen = !this.menuOpen;
-  
-      if (this.menuOpen) {
-        this.addGlobalClickListener();
-      } else {
-        this.removeGlobalClickListener();
-      }
-    }
-  
-    private addGlobalClickListener() {
-      this.clickListener = this.renderer.listen('document', 'click', (event: Event) => {
-        const clickedInside = this.elementRef.nativeElement.contains(event.target);
-        if (!clickedInside) {
-          this.menuOpen = false;
-          this.removeGlobalClickListener();
-        }
-      });
-    }
-  
-    private removeGlobalClickListener() {
-      if (this.clickListener) {
-        this.clickListener();
-        this.clickListener = undefined;
-      }
-    }
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
 
-    ngOnDestroy() {
+    if (this.menuOpen) {
+      this.addGlobalClickListener();
+    } else {
       this.removeGlobalClickListener();
     }
+  }
+
+  private addGlobalClickListener() {
+    this.clickListener = this.renderer.listen('document', 'click', (event: Event) => {
+      const clickedInside = this.elementRef.nativeElement.contains(event.target);
+      if (!clickedInside) {
+        this.menuOpen = false;
+        this.removeGlobalClickListener();
+      }
+    });
+  }
+
+  private removeGlobalClickListener() {
+    if (this.clickListener) {
+      this.clickListener();
+      this.clickListener = undefined;
+    }
+  }
+
+  ngOnDestroy() {
+    this.removeGlobalClickListener();
+  }
 
 
-  goToProfile() {
+  /*goToProfile() {
     // Logique pour rediriger l'utilisateur vers la page de profil
     this.router.navigate(['/myAccount']);
-  }
+  }*/
 
   setActiveTab(tab: string) {
     this.activeTab = tab;
@@ -100,6 +104,14 @@ export class AppBarComponent implements OnInit {
   closeMenu() {
     console.log('Backdrop clicked, closing the menu.');
     this.menuOpen = false;
+  }
+
+  navigateToHome() {
+    if (this.isLoggedIn) {
+      this.router.navigate(['/articles']);
+    } else {
+      this.router.navigate(['/']);
+    }
   }
   
 }

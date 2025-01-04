@@ -1,29 +1,41 @@
 import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { Theme } from './../models/theme.model'
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService { // A remplacer par liste tirée de BDD, unique 
-  private themes: Theme[] = [
-    {id:'1', name:'Java', content: 'Tout ce qu\'il y a a savoir sur le Java'},
-    {id:'1', name:'JavaScript' , content: 'Tout ce qu\'il y a a savoir sur le JavaScript'},
-    {id:'1', name:'Python' , content: 'Tout ce qu\'il y a a savoir sur le Python'},
-    {id:'1', name:'C#' , content: 'Tout ce qu\'il y a a savoir sur le C#'},
-    {id:'1', name:'Rust', content: 'Tout ce qu\'il y a a savoir sur le Rust'},
-  ];
+  private apiUrl = 'http://localhost:8080/api/themes';
 
-  constructor() { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   // Récupère tous les articles
-  getThemes(): Observable<Theme[]> {
-    return of(this.themes);
+  getAllThemes(): Observable<Theme[]> {
+    return this.http.get<Theme[]>(this.apiUrl);
   }
 
-  // Récupère un article par ID
-  getThemeById(id: string): Observable<Theme | undefined> {
-    const theme = this.themes.find(theme => theme.id === id);
-    return of(theme);
+  getUserThemes(userId: number): Observable<Theme[]> {
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    return this.http.get<Theme[]>(`${this.apiUrl}/user/${userId}`, { headers });
+  }
+
+  subscribe(userId: number, themeId: number): Observable<any> {
+    const subscribeUrl = 'http://localhost:8080/api/subscriptions';
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = { userId, themeId };
+    return this.http.post(subscribeUrl, body, { headers });
+  }
+  
+  unsubscribe(userId: number, themeId: number): Observable<any> {
+    const unsubscribeUrl = 'http://localhost:8080/api/subscriptions';
+    const token = this.authService.getToken();
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+    const body = { userId, themeId };
+    return this.http.request('delete', unsubscribeUrl, { headers, body });
   }
 }

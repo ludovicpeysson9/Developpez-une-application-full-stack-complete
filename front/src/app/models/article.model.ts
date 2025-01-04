@@ -1,8 +1,17 @@
 export interface Article {
-    id: string;
+    id: number;
     title: string;
-    theme: string;
-    date: string;
-    author: string;
     content: string;
+    authorId: number;
+    themeId: number;
+    themeTitle: string;
+    date: string;
+    articleAuthor: string;
+}
+
+export interface ArticleInput {
+    title: string;
+    content: string;
+    authorId: number;
+    themeId: number;
 }

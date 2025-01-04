@@ -17,7 +17,7 @@
         <h2 class="subscriptions-title">Abonnements</h2>
         <div class="subscriptions">
             <div class="subscription-card" *ngFor="let theme of subscriptions">
-                <h3 class="subscription-title">{{ theme.name }}</h3>
+                <h3 class="subscription-title">{{ theme.title }}</h3>
                 <p class="subscription-description">{{ theme.content }}</p>
                 <button type="button" class="unsubscribe-btn" (click)="unsubscribe(theme.id)">Se désabonner</button>
             </div>

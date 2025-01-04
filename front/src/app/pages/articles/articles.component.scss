@@ -9,15 +9,14 @@
     justify-content: space-between;
     width: 98%;
     margin: auto;
-    margin-top: 15vh;
+    margin-top: 8.5vw;
     margin-bottom: 2rem;
     align-items: center;
 
     @media (max-width: 768px) {
         flex-direction: column;
         gap: 1rem;
-        //align-items: flex-start;
-
+        margin-top: 18vw;
         align-items: center;
     }
 }
@@ -64,6 +63,7 @@
     gap: 4vw;
     width: 98%;
     margin: auto;
+    padding-bottom: 5vh;
     @media (max-width: 768px) {
         grid-template-columns: 1fr; /* Une seule colonne sur mobile */
     }

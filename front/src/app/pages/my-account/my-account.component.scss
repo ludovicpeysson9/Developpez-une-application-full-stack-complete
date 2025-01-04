@@ -78,6 +78,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr); /* 2 colonnes par ligne */
         gap: 1rem; /* Espacement entre les cartes */
+        padding-bottom: 3vh;
     
         @media (max-width: 768px) {
             grid-template-columns: 1fr; /* 1 colonne par ligne en mobile */

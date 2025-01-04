@@ -1,5 +1,5 @@
 /* Conteneur principal */
-.registration-container {
+.connexion-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -25,10 +25,11 @@
 
 .logo {
     width: 35vw; /* Taille par défaut */
+    cursor: pointer;
 }
 
 /* Contenu du formulaire */
-.registration-content {
+.connexion-content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -71,6 +72,24 @@
     background-color: #5d3cc4;
 }
 
+.back-button {
+    position: absolute;
+    top: 100px;
+    left: 50px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: black;
+
+    span{
+        font-size: 5vw;
+    }
+}
+
+.material-icons {
+    font-size: 24px;
+}
+
 /* Media Query pour Mobile */
 @media (max-width: 768px) {
     /* Cache l'App Bar sur mobile */
@@ -89,5 +108,14 @@
 
     .registration-content {
         max-width: 60vw;
+    }
+
+    .back-button {
+        top: 40px;
+        left: 30px;
+
+        span{
+            font-size: 10vw;
+        }
     }
 }

@@ -8,4 +8,5 @@ public class CommentDto {
     private String content;
     private Integer ownerId;
     private Integer articleId;
+    private String ownerUsername;
 }
