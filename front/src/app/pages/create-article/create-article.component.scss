@@ -4,25 +4,34 @@
     align-items: center;
     padding: 1rem;
     margin-top: 6.5vw;
-    /* Prend en compte la hauteur de la AppBar */
+    padding-top: 10vw;
+    @media (max-width: 768px) {
+        margin-top: 5vw;
+    }
 }
 
 .back-button {
-    align-self: flex-start;
-    margin-bottom: 1rem;
-}
-
-.back-btn {
+    position: absolute;
+    top: 120px;
+    left: 50px;
     background: none;
     border: none;
-    font-size: 1.5rem;
     cursor: pointer;
-    color: #6C5CCF;
-    transition: color 0.3s ease;
-}
+    color: black;
 
-.back-btn:hover {
-    color: #4a3cac;
+    span{
+        font-size: 5vw;
+    }
+
+    @media (max-width: 1180px) {
+        top: 100px;
+        left: 30px;
+    }
+
+    @media (max-width: 768px) {
+        top: 110px;
+        left: 20px;
+    }
 }
 
 h1 {
@@ -91,6 +100,7 @@ h1 {
     .new-article-container {
         padding: 1rem;
         margin-top: 12vw;
+        padding-top: 15vw;
         /* Ajustement pour tablettes */
     }
 

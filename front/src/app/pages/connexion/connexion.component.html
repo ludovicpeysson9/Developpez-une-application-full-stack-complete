@@ -1,29 +1,33 @@
-<div class="registration-container">
+<div class="connexion-container">
     <!-- App Bar pour tablette et desktop -->
     <app-app-bar *ngIf="isTablet || (!isMobile && !isTablet)"></app-app-bar>
 
+    <button class="back-button" routerLink="/">
+        <span class="material-icons">arrow_back</span>
+    </button>
+
     <!-- Logo pour mobile -->
     <div *ngIf="isMobile" class="logo-mobile">
-        <img class="logo" src="/assets/logo_p6.png" alt="MDD Logo" />
+        <img class="logo" src="/assets/logo_p6.png" alt="MDD Logo" (click)="navigateToHome()"/>
     </div>
 
     <!-- Formulaire d'inscription -->
-    <div class="registration-content">
+    <div class="connexion-content" (ngSubmit)="onSubmit()">
         <h2 class="title">Se connecter</h2>
 
-        <form class="form">
+        <form class="form" (ngSubmit)="onSubmit()">
             <div>
                 <label for="login" class="form-label">E-mail ou nom d'utilisateur</label>
-                <input type="text" id="login" class="form-input" />
+                <input type="text" id="login" class="form-input" [(ngModel)]="identifier" name="identifier" required />
             </div>
 
             <div>
                 <label for="password" class="form-label">Mot de passe</label>
-                <input type="password" id="password" class="form-input" />
+                <input type="password" id="password" class="form-input" [(ngModel)]="password" name="password" required />
             </div>
 
 
-            <button type="submit" class="submit-button">S'inscrire</button>
+            <button type="submit" class="submit-button">Se connecter</button>
         </form>
     </div>
 </div>

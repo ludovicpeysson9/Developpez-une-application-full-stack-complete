@@ -18,18 +18,6 @@ public class SubscriptionController {
         this.userSecurityService = userSecurityService;
     }
 
-    /*@PostMapping
-    public ResponseEntity<Void> subscribe(@RequestBody SubscriptionRequest subscriptionRequest) {
-        subscriptionService.subscribe(subscriptionRequest);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping
-    public ResponseEntity<Void> unsubscribe(@RequestBody SubscriptionRequest subscriptionRequest) {
-        subscriptionService.unsubscribe(subscriptionRequest);
-        return ResponseEntity.ok().build();
-    }*/
-
     @PostMapping
     public ResponseEntity<Void> subscribe(@RequestBody SubscriptionRequest subscriptionRequest) {
         if (!userSecurityService.isOwner(subscriptionRequest.getUserId())) {

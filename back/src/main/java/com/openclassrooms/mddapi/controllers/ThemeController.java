@@ -26,11 +26,6 @@ public class ThemeController {
         return ResponseEntity.ok(themes);
     }
 
-    /*@GetMapping("/user/{userId}")
-    public ResponseEntity<List<ThemeDto>> getThemesByUserId(@PathVariable Integer userId) {
-        List<ThemeDto> themes = themeService.getThemesByUserId(userId);
-        return ResponseEntity.ok(themes);
-    }*/
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ThemeDto>> getThemesByUserId(@PathVariable Integer userId) {
         if (!userSecurityService.isOwner(userId)) {

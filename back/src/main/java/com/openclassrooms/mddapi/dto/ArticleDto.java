@@ -10,5 +10,7 @@ public class ArticleDto {
     private String content;
     private Integer authorId;
     private Integer themeId;
+    private String themeTitle;
     private Date date;
+    private String articleAuthor;
 }

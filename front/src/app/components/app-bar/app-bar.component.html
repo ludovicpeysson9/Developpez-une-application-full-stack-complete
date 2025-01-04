@@ -1,7 +1,7 @@
 <div class="app-bar">
     <div class="app-bar-content">
         <!-- Logo -->
-        <img src="/assets/logo_p6.png" alt="MDD Logo" class="logo" />
+        <img src="/assets/logo_p6.png" alt="MDD Logo" class="logo" (click)="navigateToHome()"/>
 
         <!-- Bouton menu burger -->
         <button class="menu-button" (click)="toggleMenu()" *ngIf="(isMobile || isTablet) && showTabs">
@@ -10,9 +10,9 @@
 
         <!-- Onglets pour desktop -->
         <div class="app-bar-tabs" *ngIf="!isMobile && !isTablet && showTabs">
-            <a class="tab" [class.active-tab]="activeTab === 'articles'" (click)="setActiveTab('articles')">Articles</a>
-            <a class="tab" [class.active-tab]="activeTab === 'themes'" (click)="setActiveTab('themes')">Thèmes</a>
-            <div class="user-profile" *ngIf="showUserAvatar" (click)="goToProfile()">
+            <a class="tab" routerLink="/articles" routerLinkActive="active-tab">Articles</a>
+            <a class="tab" routerLink="/themes" routerLinkActive="active-tab">Thèmes</a>
+            <div class="user-profile" *ngIf="showUserAvatar" routerLink="/myAccount" routerLinkActive="active-tab">
                 <div class="avatar-background" [class.active-account]="isActiveAccountPage">
                     <svg class="avatar-icon" width="27" height="30" viewBox="0 0 27 30" fill="none">
                         <path
@@ -34,9 +34,9 @@
 <mat-sidenav-container class="app-bar-container" [ngClass]="{'backdrop-visible': menuOpen}">
     <mat-sidenav #sidenav mode="over" [opened]="menuOpen" (backdropClick)="menuOpen = false" position="end">
         <mat-nav-list>
-            <a mat-list-item (click)="setActiveTab('articles'); menuOpen = false">Articles</a>
-            <a mat-list-item (click)="setActiveTab('themes'); menuOpen = false">Thèmes</a>
-            <div class="user-profile sidenav-user-profile" (click)="goToProfile(); menuOpen = false">
+            <a mat-list-item (click)="menuOpen = false" routerLink="/articles" routerLinkActive="active-tab">Articles</a>
+            <a mat-list-item (click)="menuOpen = false" routerLink="/themes" routerLinkActive="active-tab">Thèmes</a>
+            <div class="user-profile sidenav-user-profile" (click)="menuOpen = false" routerLink="/myAccount" routerLinkActive="active-tab">
                 <div class="avatar-background" [class.active-account]="isActiveAccountPage">
                     <svg class="avatar-icon" width="27" height="30" viewBox="0 0 27 30" fill="none">
                         <path

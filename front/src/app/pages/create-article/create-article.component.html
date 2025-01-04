@@ -2,18 +2,19 @@
     <app-app-bar></app-app-bar>
 </div>
 
+<button class="back-button" routerLink="/articles">
+    <span class="material-icons">arrow_back</span>
+</button>
+
 <div class="new-article-container">
-    <div class="back-button">
-        <button class="back-btn" (click)="goBack()">&#x2190;</button>
-    </div>
     <h1>Créer un nouvel article</h1>
     <div class="form-container">
         <form (ngSubmit)="onSubmit()" #articleForm="ngForm">
             <!-- Sélection du thème -->
-            <select class="input-field" name="theme" [(ngModel)]="theme" required>
+            <select class="input-field" name="themeId" [(ngModel)]="themeId" required>
                 <option value="" disabled selected>Sélectionner un thème</option>
-                <option *ngFor="let theme of themes" [value]="theme.name">
-                    {{ theme.name }}
+                <option *ngFor="let theme of themes" [ngValue]=theme.id>
+                    {{ theme.title }}
                 </option>
             </select>
 
