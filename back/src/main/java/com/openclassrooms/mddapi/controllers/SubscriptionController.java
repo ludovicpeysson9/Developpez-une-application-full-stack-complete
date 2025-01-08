@@ -18,6 +18,12 @@ public class SubscriptionController {
         this.userSecurityService = userSecurityService;
     }
 
+    /**
+     * Subscribe a user to a theme.
+     *
+     * @param subscriptionRequest the subscription request containing the user ID and theme ID
+     * @return a response entity indicating the result of the operation
+     */
     @PostMapping
     public ResponseEntity<Void> subscribe(@RequestBody SubscriptionRequest subscriptionRequest) {
         if (!userSecurityService.isOwner(subscriptionRequest.getUserId())) {
@@ -27,6 +33,12 @@ public class SubscriptionController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * Unsubscribe a user from a theme.
+     *
+     * @param subscriptionRequest the subscription request containing the user ID and theme ID
+     * @return a response entity indicating the result of the operation
+     */
     @DeleteMapping
     public ResponseEntity<Void> unsubscribe(@RequestBody SubscriptionRequest subscriptionRequest) {
         if (!userSecurityService.isOwner(subscriptionRequest.getUserId())) {

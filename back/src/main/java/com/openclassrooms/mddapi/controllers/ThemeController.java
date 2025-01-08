@@ -20,12 +20,23 @@ public class ThemeController {
         this.userSecurityService = userSecurityService;
     }
 
+    /**
+     * Get all themes.
+     *
+     * @return a list of all themes
+     */
     @GetMapping
     public ResponseEntity<List<ThemeDto>> getAllThemes() {
         List<ThemeDto> themes = themeService.getAllThemes();
         return ResponseEntity.ok(themes);
     }
 
+    /**
+     * Get all themes subscribed by a specific user.
+     *
+     * @param userId the ID of the user
+     * @return a list of themes subscribed by the specified user
+     */
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ThemeDto>> getThemesByUserId(@PathVariable Integer userId) {
         if (!userSecurityService.isOwner(userId)) {

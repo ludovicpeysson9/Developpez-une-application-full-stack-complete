@@ -1,17 +1,11 @@
 package com.openclassrooms.mddapi.entities;
 
-import java.util.Collection;
-import java.util.Collections;
-
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 
 @Entity
 @Table(name = "users")

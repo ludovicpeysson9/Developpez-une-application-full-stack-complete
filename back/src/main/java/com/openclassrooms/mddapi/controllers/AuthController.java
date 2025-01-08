@@ -17,6 +17,12 @@ public class AuthController {
         this.authService = authService;
     }
 
+    /**
+     * Authenticate a user and return a JWT token.
+     *
+     * @param loginRequest the login request containing the user's credentials
+     * @return the authentication response containing the JWT token
+     */
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         System.out.println("Login request received with identifier: " + loginRequest.getIdentifier());
@@ -25,6 +31,12 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
+    /**
+     * Register a new user and return a JWT token.
+     *
+     * @param registerRequest the registration request containing the user's details
+     * @return the authentication response containing the JWT token
+     */
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
         AuthResponse response = authService.register(registerRequest);

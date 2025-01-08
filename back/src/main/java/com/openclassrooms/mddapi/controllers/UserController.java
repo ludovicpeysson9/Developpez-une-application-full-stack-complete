@@ -26,6 +26,12 @@ public class UserController {
         this.userSecurityService = userSecurityService;
     }
 
+    /**
+     * Get a user by email.
+     *
+     * @param emailRequest the email request containing the user's email
+     * @return the user with the specified email
+     */
     @GetMapping("/getUserByEmail")
     public ResponseEntity<UserDto> getUserByEmail(@RequestBody EmailRequest emailRequest) {
         System.out.println("Endpoint hit with email: " + emailRequest.getEmail());
@@ -39,6 +45,13 @@ public class UserController {
         }
     }
 
+    /**
+     * Update a user.
+     *
+     * @param id the ID of the user
+     * @param userUpdateRequest the user update request containing the updated user details
+     * @return the updated user
+     */
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserUpdateRequest userUpdateRequest) {
         System.out.println("Update request received for user ID: " + id);
