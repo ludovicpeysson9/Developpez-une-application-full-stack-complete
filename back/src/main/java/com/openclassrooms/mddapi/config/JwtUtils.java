@@ -53,7 +53,7 @@ public class JwtUtils {
 
     public String generateJwtToken(Integer userId) {
         return Jwts.builder()
-                .setSubject(String.valueOf(userId)) // Utiliser l'ID de l'utilisateur comme sujet
+                .setSubject(String.valueOf(userId)) 
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS512)

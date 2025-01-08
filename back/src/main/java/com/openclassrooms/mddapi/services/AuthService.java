@@ -42,7 +42,6 @@ public class AuthService implements AuthServiceInterface {
     public AuthResponse register(RegisterRequest registerRequest) {
         validateNewUser(registerRequest);
         User user = createUser(registerRequest);
-        //String token = jwtUtils.generateJwtToken(user.getUsername(), user.getId());
         String token = jwtUtils.generateJwtToken(user.getId());
         return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
     }
@@ -65,7 +64,6 @@ public class AuthService implements AuthServiceInterface {
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-       //return jwtUtils.generateJwtToken(userDetails.getUsername(), userDetails.getId());
         return jwtUtils.generateJwtToken(userDetails.getId());
     }
 
