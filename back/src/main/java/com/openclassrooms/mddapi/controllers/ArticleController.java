@@ -20,18 +20,36 @@ public class ArticleController {
         this.userSecurityService = userSecurityService;
     }
 
+    /**
+     * Get all articles.
+     *
+     * @return a list of all articles
+     */
     @GetMapping
     public ResponseEntity<List<ArticleDto>> getAllArticles() {
         List<ArticleDto> articles = articleService.getAllArticles();
         return ResponseEntity.ok(articles);
     }
 
+    /**
+     * Get an article by its ID.
+     *
+     * @param id the ID of the article
+     * @return the article with the specified ID
+     */
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Integer id) {
         ArticleDto article = articleService.getArticleById(id);
         return ResponseEntity.ok(article);
     }
 
+
+    /**
+     * Create a new article.
+     *
+     * @param articleDto the article to create
+     * @return the created article
+     */
     @PostMapping("/createArticle")
     public ResponseEntity<ArticleDto> createArticle(@RequestBody ArticleDto articleDto) {
         if (!userSecurityService.isOwner(articleDto.getAuthorId())) {

@@ -17,12 +17,24 @@ public class CommentController {
         this.commentService = commentService;
     }
 
+    /**
+     * Get all comments for a specific article.
+     *
+     * @param articleId the ID of the article
+     * @return a list of comments for the specified article
+     */
     @GetMapping("/article/{articleId}")
     public ResponseEntity<List<CommentDto>> getCommentsByArticleId(@PathVariable Integer articleId) {
         List<CommentDto> comments = commentService.getCommentsByArticleId(articleId);
         return ResponseEntity.ok(comments);
     }
 
+    /**
+     * Create a new comment.
+     *
+     * @param commentDto the comment to create
+     * @return the created comment
+     */
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
         CommentDto createdComment = commentService.createComment(commentDto);
