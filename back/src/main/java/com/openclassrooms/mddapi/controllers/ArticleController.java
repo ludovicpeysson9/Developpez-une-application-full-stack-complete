@@ -56,7 +56,7 @@ public class ArticleController {
             return ResponseEntity.status(403).build();
         }
         ArticleDto createdArticle = articleService.createArticle(articleDto);
-        articleService.linkArticleToTheme(createdArticle.getId(), articleDto.getThemeId()); // Lier l'article au thème
+        articleService.linkArticleToTheme(createdArticle.getId(), articleDto.getThemeId()); 
         return ResponseEntity.ok(createdArticle);
     }
 }

@@ -14,8 +14,8 @@ public class ArticleMapper {
         dto.setId(article.getId());
         dto.setTitle(article.getTitle());
         dto.setContent(article.getContent());
-        dto.setAuthorId(article.getAuthor().getId()); // Utiliser l'ID de l'auteur
-        dto.setDate(article.getDate()); // Utiliser LocalDateTime directement
+        dto.setAuthorId(article.getAuthor().getId()); 
+        dto.setDate(article.getDate());
         dto.setArticleAuthor(article.getAuthor().getUsername());
         if (article.getThemes() != null && !article.getThemes().isEmpty()) {
             Theme theme = article.getThemes().iterator().next();
@@ -30,7 +30,7 @@ public class ArticleMapper {
         article.setTitle(articleDto.getTitle());
         article.setContent(articleDto.getContent());
         article.setDate(articleDto.getDate());
-        // Récupérer l'auteur par son ID et le définir
+        
         User author = new User();
         author.setId(articleDto.getAuthorId());
         article.setAuthor(author);
