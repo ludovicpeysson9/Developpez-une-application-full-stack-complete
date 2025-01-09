@@ -4,6 +4,7 @@ import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -87,6 +88,6 @@ public class UserSecurityServiceTest {
         when(userRepository.findByUsername(currentUsername)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> userSecurityService.isOwner(userId));
+        assertThrows(ServiceException.class, () -> userSecurityService.isOwner(userId));
     }
 }

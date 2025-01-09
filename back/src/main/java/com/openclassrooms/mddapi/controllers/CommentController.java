@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.CommentDto;
+import com.openclassrooms.mddapi.exceptions.CommentCreationException;
+import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.services.interfaces.CommentServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,9 @@ public class CommentController {
     @GetMapping("/article/{articleId}")
     public ResponseEntity<List<CommentDto>> getCommentsByArticleId(@PathVariable Integer articleId) {
         List<CommentDto> comments = commentService.getCommentsByArticleId(articleId);
+        if (comments.isEmpty()) {
+            throw new ResourceNotFoundException("No comments found for article with id: " + articleId);
+        }
         return ResponseEntity.ok(comments);
     }
 
@@ -37,7 +42,11 @@ public class CommentController {
      */
     @PostMapping
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
-        CommentDto createdComment = commentService.createComment(commentDto);
-        return ResponseEntity.ok(createdComment);
+        try {
+            CommentDto createdComment = commentService.createComment(commentDto);
+            return ResponseEntity.ok(createdComment);
+        } catch (Exception e) {
+            throw new CommentCreationException("Error creating comment: " + e.getMessage());
+        }
     }
 }

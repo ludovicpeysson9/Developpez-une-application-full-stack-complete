@@ -1,5 +1,6 @@
 package com.openclassrooms.mddapi.services;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,6 +8,7 @@ import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.entities.Article;
 import com.openclassrooms.mddapi.entities.Comment;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.CommentMapper;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.CommentRepository;
@@ -64,6 +66,19 @@ public class CommentServiceTest {
     }
 
     @Test
+    public void testGetCommentsByArticleId_Exception() {
+        // Arrange
+        Integer articleId = 1;
+        when(commentRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            commentService.getCommentsByArticleId(articleId);
+        });
+        assertEquals("Error retrieving comments for article with id: " + articleId + ". Database error", exception.getMessage());
+    }
+
+    @Test
     public void testCreateComment() {
         // Arrange
         CommentDto commentDto = new CommentDto();
@@ -96,4 +111,22 @@ public class CommentServiceTest {
         assertEquals(commentDto.getOwnerId(), result.getOwnerId());
         assertEquals(commentDto.getArticleId(), result.getArticleId());
     }
+
+    @Test
+    public void testCreateComment_UserNotFound() {
+        // Arrange
+        CommentDto commentDto = new CommentDto();
+        commentDto.setContent("content");
+        commentDto.setOwnerId(1);
+        commentDto.setArticleId(1);
+
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            commentService.createComment(commentDto);
+        });
+        assertEquals("Error creating comment: User not found with id: 1", exception.getMessage());
+    }
+    
 }

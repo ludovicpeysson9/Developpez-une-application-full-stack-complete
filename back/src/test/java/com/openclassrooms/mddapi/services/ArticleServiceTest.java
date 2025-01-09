@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.openclassrooms.mddapi.dto.ArticleDto;
 import com.openclassrooms.mddapi.entities.Article;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.ArticleMapper;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.ArticleThemeRepository;
@@ -64,6 +65,18 @@ public class ArticleServiceTest {
     }
 
     @Test
+    public void testGetAllArticles_Exception() {
+        // Arrange
+        when(articleRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            articleService.getAllArticles();
+        });
+        assertEquals("Error retrieving all articles: Database error", exception.getMessage());
+    }
+
+    @Test
     public void testGetArticleById() {
         // Arrange
         Integer articleId = 1;
@@ -80,6 +93,19 @@ public class ArticleServiceTest {
         // Assert
         assertNotNull(result);
         assertEquals(articleId, result.getId());
+    }
+
+    @Test
+    public void testGetArticleById_NotFound() {
+        // Arrange
+        Integer articleId = 1;
+        when(articleRepository.findById(articleId)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            articleService.getArticleById(articleId);
+        });
+        assertEquals("Error retrieving article by id: Article not found with id: " + articleId, exception.getMessage());
     }
 
     @Test
@@ -121,6 +147,23 @@ public class ArticleServiceTest {
     }
 
     @Test
+    public void testCreateArticle_UserNotFound() {
+        // Arrange
+        ArticleDto articleDto = new ArticleDto();
+        articleDto.setTitle("title");
+        articleDto.setContent("content");
+        articleDto.setAuthorId(1);
+
+        when(userRepository.findById(1)).thenReturn(Optional.empty());
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            articleService.createArticle(articleDto);
+        });
+        assertEquals("Error creating article: User not found with id: 1", exception.getMessage());
+    }
+
+    @Test
     public void testLinkArticleToTheme() {
         // Arrange
         Integer articleId = 1;
@@ -131,5 +174,19 @@ public class ArticleServiceTest {
 
         // Assert
         verify(articleThemeRepository, times(1)).linkArticleToTheme(articleId, themeId);
+    }
+
+    @Test
+    public void testLinkArticleToTheme_Exception() {
+        // Arrange
+        Integer articleId = 1;
+        Integer themeId = 1;
+        doThrow(new RuntimeException("Database error")).when(articleThemeRepository).linkArticleToTheme(articleId, themeId);
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            articleService.linkArticleToTheme(articleId, themeId);
+        });
+        assertEquals("Error linking article to theme: Database error", exception.getMessage());
     }
 }

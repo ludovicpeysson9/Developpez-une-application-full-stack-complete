@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.dto.ArticleDto;
 import com.openclassrooms.mddapi.entities.Article;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.ArticleMapper;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.ArticleThemeRepository;
@@ -30,33 +31,50 @@ public class ArticleService implements ArticleServiceInterface {
 
     @Override
     public List<ArticleDto> getAllArticles() {
-        return articleRepository.findAll().stream()
-                .map(articleMapper::toDTO)
-                .toList();
+        try {
+            return articleRepository.findAll().stream()
+                    .map(articleMapper::toDTO)
+                    .toList();
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving all articles: " + e.getMessage());
+        }
     }
 
     @Override
     public ArticleDto getArticleById(Integer id) {
-        Article article = articleRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        return articleMapper.toDTO(article);
+        try {
+            Article article = articleRepository.findById(id)
+                    .orElseThrow(() -> new ServiceException("Article not found with id: " + id));
+            return articleMapper.toDTO(article);
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving article by id: " + e.getMessage());
+        }
     }
 
     @Override
     public ArticleDto createArticle(ArticleDto articleDto) {
-        Article article = new Article();
-        article.setTitle(articleDto.getTitle());
-        article.setContent(articleDto.getContent());
-        article.setDate(new Date());
-        User author = userRepository.findById(articleDto.getAuthorId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        article.setAuthor(author);
-        articleRepository.save(article);
-        return articleMapper.toDTO(article);
+        try {
+            Article article = new Article();
+            article.setTitle(articleDto.getTitle());
+            article.setContent(articleDto.getContent());
+            article.setDate(new Date());
+            User author = userRepository.findById(articleDto.getAuthorId())
+                    .orElseThrow(() -> new ServiceException("User not found with id: " + articleDto.getAuthorId()));
+            article.setAuthor(author);
+            articleRepository.save(article);
+            return articleMapper.toDTO(article);
+        } catch (Exception e) {
+            throw new ServiceException("Error creating article: " + e.getMessage());
+        }
     }
 
     @Override
     public void linkArticleToTheme(Integer articleId, Integer themeId) {
-        articleThemeRepository.linkArticleToTheme(articleId, themeId);
+        try {
+            articleThemeRepository.linkArticleToTheme(articleId, themeId);
+        } catch (Exception e) {
+            throw new ServiceException("Error linking article to theme: " + e.getMessage());
+        }
     }
+    
 }

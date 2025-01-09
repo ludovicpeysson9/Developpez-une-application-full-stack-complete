@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.ThemeDto;
+import com.openclassrooms.mddapi.exceptions.ThemeNotFoundException;
 import com.openclassrooms.mddapi.services.UserSecurityService;
 import com.openclassrooms.mddapi.services.interfaces.ThemeServiceInterface;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +29,9 @@ public class ThemeController {
     @GetMapping
     public ResponseEntity<List<ThemeDto>> getAllThemes() {
         List<ThemeDto> themes = themeService.getAllThemes();
+        if (themes.isEmpty()) {
+            throw new ThemeNotFoundException("No themes found");
+        }
         return ResponseEntity.ok(themes);
     }
 
@@ -43,6 +47,9 @@ public class ThemeController {
             return ResponseEntity.status(403).build();
         }
         List<ThemeDto> themes = themeService.getThemesByUserId(userId);
+        if (themes.isEmpty()) {
+            throw new ThemeNotFoundException("No themes found for user with id: " + userId);
+        }
         return ResponseEntity.ok(themes);
     }
 }

@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import com.openclassrooms.mddapi.dto.ThemeDto;
 import com.openclassrooms.mddapi.entities.Abonnement;
 import com.openclassrooms.mddapi.entities.Theme;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.ThemeMapper;
 import com.openclassrooms.mddapi.repositories.AbonnementRepository;
 import com.openclassrooms.mddapi.repositories.ThemeRepository;
@@ -56,6 +57,18 @@ public class ThemeServiceTest {
     }
 
     @Test
+    public void testGetAllThemes_Exception() {
+        // Arrange
+        when(themeRepository.findAll()).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            themeService.getAllThemes();
+        });
+        assertEquals("Error retrieving all themes: Database error", exception.getMessage());
+    }
+
+    @Test
     public void testGetThemesByUserId() {
         // Arrange
         Integer userId = 1;
@@ -76,4 +89,18 @@ public class ThemeServiceTest {
         assertEquals(1, result.size());
         assertEquals(themeDto, result.get(0));
     }
+
+    @Test
+    public void testGetThemesByUserId_Exception() {
+        // Arrange
+        Integer userId = 1;
+        when(abonnementRepository.findByUserId(userId)).thenThrow(new RuntimeException("Database error"));
+
+        // Act & Assert
+        ServiceException exception = assertThrows(ServiceException.class, () -> {
+            themeService.getThemesByUserId(userId);
+        });
+        assertEquals("Error retrieving themes for user with id: " + userId + ". Database error", exception.getMessage());
+    }
+    
 }

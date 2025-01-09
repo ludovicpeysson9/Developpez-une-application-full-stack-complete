@@ -3,6 +3,8 @@ package com.openclassrooms.mddapi.controllers;
 import com.openclassrooms.mddapi.dto.AuthResponse;
 import com.openclassrooms.mddapi.dto.LoginRequest;
 import com.openclassrooms.mddapi.dto.RegisterRequest;
+import com.openclassrooms.mddapi.exceptions.AuthenticationException;
+import com.openclassrooms.mddapi.exceptions.RegistrationException;
 import com.openclassrooms.mddapi.services.interfaces.AuthServiceInterface;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,10 +27,12 @@ public class AuthController {
      */
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
-        System.out.println("Login request received with identifier: " + loginRequest.getIdentifier());
-        AuthResponse response = authService.login(loginRequest);
-        System.out.println("Returning token: " + response.getToken());
-        return ResponseEntity.ok(response);
+        try {
+            AuthResponse response = authService.login(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new AuthenticationException("Error during authentication: " + e.getMessage());
+        }
     }
 
     /**
@@ -39,8 +43,12 @@ public class AuthController {
      */
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(@RequestBody RegisterRequest registerRequest) {
-        AuthResponse response = authService.register(registerRequest);
-        return ResponseEntity.ok(response);
+        try {
+            AuthResponse response = authService.register(registerRequest);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new RegistrationException("Error during registration: " + e.getMessage());
+        }
     }
 
 }

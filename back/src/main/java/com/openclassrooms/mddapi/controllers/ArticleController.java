@@ -1,6 +1,8 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.ArticleDto;
+import com.openclassrooms.mddapi.exceptions.ArticleCreationException;
+import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.services.UserSecurityService;
 import com.openclassrooms.mddapi.services.interfaces.ArticleServiceInterface;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +42,11 @@ public class ArticleController {
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Integer id) {
         ArticleDto article = articleService.getArticleById(id);
-        return ResponseEntity.ok(article);
+        if (article != null) {
+            return ResponseEntity.ok(article);
+        } else {
+            throw new ResourceNotFoundException("Article not found with id: " + id);
+        }
     }
 
 
@@ -55,8 +61,12 @@ public class ArticleController {
         if (!userSecurityService.isOwner(articleDto.getAuthorId())) {
             return ResponseEntity.status(403).build();
         }
-        ArticleDto createdArticle = articleService.createArticle(articleDto);
-        articleService.linkArticleToTheme(createdArticle.getId(), articleDto.getThemeId()); 
-        return ResponseEntity.ok(createdArticle);
+        try {
+            ArticleDto createdArticle = articleService.createArticle(articleDto);
+            articleService.linkArticleToTheme(createdArticle.getId(), articleDto.getThemeId());
+            return ResponseEntity.ok(createdArticle);
+        } catch (Exception e) {
+            throw new ArticleCreationException("Error creating article: " + e.getMessage());
+        }
     }
 }

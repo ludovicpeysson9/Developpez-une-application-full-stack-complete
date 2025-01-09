@@ -1,11 +1,13 @@
 package com.openclassrooms.mddapi.services;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.dto.UserUpdateRequest;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -61,7 +63,7 @@ public class UserServiceTest {
         when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> userService.getUserByEmail(email));
+        assertThrows(ServiceException.class, () -> userService.getUserByEmail(email));
     }
 
     @Test
@@ -106,6 +108,6 @@ public class UserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> userService.updateUser(userId, userUpdateRequest));
+        assertThrows(ServiceException.class, () -> userService.updateUser(userId, userUpdateRequest));
     }
 }

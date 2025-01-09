@@ -9,6 +9,7 @@ import com.openclassrooms.mddapi.entities.Abonnement;
 import com.openclassrooms.mddapi.entities.AbonnementId;
 import com.openclassrooms.mddapi.entities.Theme;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.repositories.AbonnementRepository;
 import com.openclassrooms.mddapi.repositories.ThemeRepository;
 import com.openclassrooms.mddapi.repositories.UserRepository;
@@ -92,7 +93,7 @@ public class SubscriptionServiceTest {
         SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
         subscriptionRequest.setUserId(userId);
         subscriptionRequest.setThemeId(1);
-        assertThrows(IllegalArgumentException.class, () -> subscriptionService.subscribe(subscriptionRequest));
+        assertThrows(ServiceException.class, () -> subscriptionService.subscribe(subscriptionRequest));
     }
 
     @Test
@@ -105,6 +106,6 @@ public class SubscriptionServiceTest {
         SubscriptionRequest subscriptionRequest = new SubscriptionRequest();
         subscriptionRequest.setUserId(1);
         subscriptionRequest.setThemeId(themeId);
-        assertThrows(IllegalArgumentException.class, () -> subscriptionService.subscribe(subscriptionRequest));
+        assertThrows(ServiceException.class, () -> subscriptionService.subscribe(subscriptionRequest));
     }
 }

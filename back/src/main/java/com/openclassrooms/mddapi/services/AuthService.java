@@ -4,6 +4,8 @@ import com.openclassrooms.mddapi.dto.AuthResponse;
 import com.openclassrooms.mddapi.dto.LoginRequest;
 import com.openclassrooms.mddapi.dto.RegisterRequest;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.AuthenticationException;
+import com.openclassrooms.mddapi.exceptions.RegistrationException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.security.CustomUserDetails;
 import com.openclassrooms.mddapi.services.interfaces.AuthServiceInterface;
@@ -32,29 +34,37 @@ public class AuthService implements AuthServiceInterface {
 
     @Override
     public AuthResponse login(LoginRequest loginRequest) {
-        User user = findUserByIdentifier(loginRequest.getIdentifier());
-        validatePassword(loginRequest.getPassword(), user.getPassword());
-        String token = authenticateUser(loginRequest.getIdentifier(), loginRequest.getPassword());
-        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+        try {
+            User user = findUserByIdentifier(loginRequest.getIdentifier());
+            validatePassword(loginRequest.getPassword(), user.getPassword());
+            String token = authenticateUser(loginRequest.getIdentifier(), loginRequest.getPassword());
+            return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+        } catch (Exception e) {
+            throw new AuthenticationException("Error during authentication: " + e.getMessage());
+        }
     }
 
     @Override
     public AuthResponse register(RegisterRequest registerRequest) {
-        validateNewUser(registerRequest);
-        User user = createUser(registerRequest);
-        String token = jwtUtils.generateJwtToken(user.getId());
-        return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+        try {
+            validateNewUser(registerRequest);
+            User user = createUser(registerRequest);
+            String token = jwtUtils.generateJwtToken(user.getId());
+            return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
+        } catch (Exception e) {
+            throw new RegistrationException("Error during registration: " + e.getMessage());
+        }
     }
 
     private User findUserByIdentifier(String identifier) {
         return userRepository.findByUsername(identifier)
-                .orElseGet(() -> userRepository.findByEmail(identifier)
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid username/email or password")));
+            .orElseGet(() -> userRepository.findByEmail(identifier)
+                .orElseThrow(() -> new AuthenticationException("Invalid username/email or password")));
     }
 
     private void validatePassword(String rawPassword, String encodedPassword) {
         if (!passwordEncoder.matches(rawPassword, encodedPassword)) {
-            throw new IllegalArgumentException("Invalid username/email or password");
+            throw new AuthenticationException("Invalid username/email or password");
         }
     }
 
@@ -69,10 +79,10 @@ public class AuthService implements AuthServiceInterface {
 
     private void validateNewUser(RegisterRequest registerRequest) {
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            throw new IllegalArgumentException("Email already in use");
+            throw new RegistrationException("Email already in use");
         }
         if (userRepository.existsByUsername(registerRequest.getUsername())) {
-            throw new IllegalArgumentException("Username already in use");
+            throw new RegistrationException("Username already in use");
         }
     }
 

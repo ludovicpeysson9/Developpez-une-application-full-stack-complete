@@ -4,6 +4,7 @@ import com.openclassrooms.mddapi.dto.CommentDto;
 import com.openclassrooms.mddapi.entities.Article;
 import com.openclassrooms.mddapi.entities.Comment;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.CommentMapper;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
 import com.openclassrooms.mddapi.repositories.CommentRepository;
@@ -30,26 +31,34 @@ public class CommentService implements CommentServiceInterface {
 
     @Override
     public List<CommentDto> getCommentsByArticleId(Integer articleId) {
-        return commentRepository.findAll().stream()
-                .filter(comment -> comment.getArticle().getId().equals(articleId))
-                .map(commentMapper::toDTO)
-                .toList();
+        try {
+            return commentRepository.findAll().stream()
+                    .filter(comment -> comment.getArticle().getId().equals(articleId))
+                    .map(commentMapper::toDTO)
+                    .toList();
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving comments for article with id: " + articleId + ". " + e.getMessage());
+        }
     }
 
     @Override
     public CommentDto createComment(CommentDto commentDto) {
-        Comment comment = new Comment();
-        comment.setContent(commentDto.getContent());
+        try {
+            Comment comment = new Comment();
+            comment.setContent(commentDto.getContent());
 
-        User owner = userRepository.findById(commentDto.getOwnerId())
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        comment.setOwner(owner);
+            User owner = userRepository.findById(commentDto.getOwnerId())
+                    .orElseThrow(() -> new ServiceException("User not found with id: " + commentDto.getOwnerId()));
+            comment.setOwner(owner);
 
-        Article article = articleRepository.findById(commentDto.getArticleId())
-                .orElseThrow(() -> new IllegalArgumentException("Article not found"));
-        comment.setArticle(article);
+            Article article = articleRepository.findById(commentDto.getArticleId())
+                    .orElseThrow(() -> new ServiceException("Article not found with id: " + commentDto.getArticleId()));
+            comment.setArticle(article);
 
-        commentRepository.save(comment);
-        return commentMapper.toDTO(comment);
+            commentRepository.save(comment);
+            return commentMapper.toDTO(comment);
+        } catch (Exception e) {
+            throw new ServiceException("Error creating comment: " + e.getMessage());
+        }
     }
 }

@@ -8,6 +8,8 @@ import com.openclassrooms.mddapi.dto.AuthResponse;
 import com.openclassrooms.mddapi.dto.LoginRequest;
 import com.openclassrooms.mddapi.dto.RegisterRequest;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.AuthenticationException;
+import com.openclassrooms.mddapi.exceptions.RegistrationException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.config.JwtUtils;
 import com.openclassrooms.mddapi.security.CustomUserDetails;
@@ -86,7 +88,7 @@ public class AuthServiceTest {
         when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.empty());
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> authService.login(loginRequest));
+        assertThrows(AuthenticationException.class, () -> authService.login(loginRequest));
     }
 
     @Test
@@ -128,7 +130,7 @@ public class AuthServiceTest {
         when(userRepository.existsByEmail("email@example.com")).thenReturn(true);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> authService.register(registerRequest));
+        assertThrows(RegistrationException.class, () -> authService.register(registerRequest));
     }
 
     @Test
@@ -142,6 +144,6 @@ public class AuthServiceTest {
         when(userRepository.existsByUsername("username")).thenReturn(true);
 
         // Act & Assert
-        assertThrows(IllegalArgumentException.class, () -> authService.register(registerRequest));
+        assertThrows(RegistrationException.class, () -> authService.register(registerRequest));
     }
 }
