@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.controllers;
 
 import com.openclassrooms.mddapi.dto.SubscriptionRequest;
+import com.openclassrooms.mddapi.exceptions.SubscriptionException;
 import com.openclassrooms.mddapi.services.UserSecurityService;
 import com.openclassrooms.mddapi.services.interfaces.SubscriptionServiceInterface;
 import org.springframework.http.ResponseEntity;
@@ -29,8 +30,12 @@ public class SubscriptionController {
         if (!userSecurityService.isOwner(subscriptionRequest.getUserId())) {
             return ResponseEntity.status(403).build();
         }
-        subscriptionService.subscribe(subscriptionRequest);
-        return ResponseEntity.ok().build();
+        try {
+            subscriptionService.subscribe(subscriptionRequest);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new SubscriptionException("Error during subscription: " + e.getMessage());
+        }
     }
 
     /**
@@ -44,7 +49,11 @@ public class SubscriptionController {
         if (!userSecurityService.isOwner(subscriptionRequest.getUserId())) {
             return ResponseEntity.status(403).build();
         }
-        subscriptionService.unsubscribe(subscriptionRequest);
-        return ResponseEntity.ok().build();
+        try {
+            subscriptionService.unsubscribe(subscriptionRequest);
+            return ResponseEntity.ok().build();
+        } catch (Exception e) {
+            throw new SubscriptionException("Error during unsubscription: " + e.getMessage());
+        }
     }
 }

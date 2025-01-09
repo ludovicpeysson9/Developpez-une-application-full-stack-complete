@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.UserSecurityServiceInterface;
 import org.springframework.security.core.Authentication;
@@ -18,10 +19,14 @@ public class UserSecurityService implements UserSecurityServiceInterface {
 
     @Override
     public boolean isOwner(Integer userId) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentUsername = authentication.getName();
-        User user = userRepository.findByUsername(currentUsername)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return user.getId().equals(userId);
+        try {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUsername = authentication.getName();
+            User user = userRepository.findByUsername(currentUsername)
+                    .orElseThrow(() -> new ServiceException("User not found with username: " + currentUsername));
+            return user.getId().equals(userId);
+        } catch (Exception e) {
+            throw new ServiceException("Error checking ownership: " + e.getMessage());
+        }
     }
 }

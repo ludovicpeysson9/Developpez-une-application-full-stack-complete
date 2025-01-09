@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.openclassrooms.mddapi.dto.EmailRequest;
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.dto.UserUpdateRequest;
+import com.openclassrooms.mddapi.exceptions.UserNotFoundException;
+import com.openclassrooms.mddapi.exceptions.UserUpdateException;
 import com.openclassrooms.mddapi.services.interfaces.UserSecurityServiceInterface;
 import com.openclassrooms.mddapi.services.interfaces.UserServiceInterface;
 
@@ -34,14 +36,11 @@ public class UserController {
      */
     @GetMapping("/getUserByEmail")
     public ResponseEntity<UserDto> getUserByEmail(@RequestBody EmailRequest emailRequest) {
-        System.out.println("Endpoint hit with email: " + emailRequest.getEmail());
         UserDto userDto = userService.getUserByEmail(emailRequest.getEmail());
         if (userDto != null) {
-            System.out.println("User found: " + userDto);
             return ResponseEntity.ok(userDto);
         } else {
-            System.out.println("User not found with email: " + emailRequest.getEmail());
-            return ResponseEntity.notFound().build();
+            throw new UserNotFoundException("User not found with email: " + emailRequest.getEmail());
         }
     }
 
@@ -54,13 +53,14 @@ public class UserController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<UserDto> updateUser(@PathVariable Integer id, @RequestBody UserUpdateRequest userUpdateRequest) {
-        System.out.println("Update request received for user ID: " + id);
         if (!userSecurityService.isOwner(id)) {
-            System.out.println("User is not the owner, access denied.");
             return ResponseEntity.status(403).build();
         }
-        UserDto updatedUser = userService.updateUser(id, userUpdateRequest);
-        System.out.println("User updated: " + updatedUser);
-        return ResponseEntity.ok(updatedUser);
+        try {
+            UserDto updatedUser = userService.updateUser(id, userUpdateRequest);
+            return ResponseEntity.ok(updatedUser);
+        } catch (Exception e) {
+            throw new UserUpdateException("Error updating user: " + e.getMessage());
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.dto.UserDto;
 import com.openclassrooms.mddapi.dto.UserUpdateRequest;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.UserMapper;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.UserServiceInterface;
@@ -19,30 +20,34 @@ public class UserService implements UserServiceInterface {
 
     @Override
     public UserDto getUserByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return UserMapper.toDto(user);
+        try {
+            User user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new ServiceException("User not found with email: " + email));
+            return UserMapper.toDto(user);
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving user by email: " + e.getMessage());
+        }
     }
 
     @Override
     public UserDto updateUser(Integer id, UserUpdateRequest userUpdateRequest) {
-        System.out.println("Finding user by ID: " + id);
-        User user = findUserById(id);
-        System.out.println("User found: " + user);
-        updateUsername(user, userUpdateRequest.getUsername());
-        updateEmail(user, userUpdateRequest.getEmail());
-        System.out.println("Saving updated user: " + user);
-        userRepository.save(user);
-        return UserMapper.toDto(user);
+        try {
+            User user = findUserById(id);
+            updateUsername(user, userUpdateRequest.getUsername());
+            updateEmail(user, userUpdateRequest.getEmail());
+            userRepository.save(user);
+            return UserMapper.toDto(user);
+        } catch (Exception e) {
+            throw new ServiceException("Error updating user: " + e.getMessage());
+        }
     }
 
     private User findUserById(Integer id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new ServiceException("User not found with id: " + id));
     }
 
     private void updateUsername(User user, String username) {
-        System.out.println("updateUsername with parameters : " + username);
         if (username != null && !username.isEmpty()) {
             System.out.println("Updating username to: " + username);
             user.setUsername(username);
@@ -50,7 +55,6 @@ public class UserService implements UserServiceInterface {
     }
 
     private void updateEmail(User user, String email) {
-        System.out.println("updateUsername with parameters : " + email);
         if (email != null && !email.isEmpty()) {
             System.out.println("Updating email to: " + email);
             user.setEmail(email);

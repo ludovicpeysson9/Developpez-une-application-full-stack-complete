@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.services;
 
 import com.openclassrooms.mddapi.dto.ThemeDto;
+import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.ThemeMapper;
 import com.openclassrooms.mddapi.repositories.AbonnementRepository;
 import com.openclassrooms.mddapi.repositories.ThemeRepository;
@@ -25,15 +26,23 @@ public class ThemeService implements ThemeServiceInterface {
 
     @Override
     public List<ThemeDto> getAllThemes() {
-        return themeRepository.findAll().stream()
-                .map(themeMapper::toDTO)
-                .toList();
+        try {
+            return themeRepository.findAll().stream()
+                    .map(themeMapper::toDTO)
+                    .toList();
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving all themes: " + e.getMessage());
+        }
     }
 
     @Override
     public List<ThemeDto> getThemesByUserId(Integer userId) {
-        return abonnementRepository.findByUserId(userId).stream()
-                .map(abonnement -> themeMapper.toDTO(abonnement.getTheme()))
-                .toList();
+        try {
+            return abonnementRepository.findByUserId(userId).stream()
+                    .map(abonnement -> themeMapper.toDTO(abonnement.getTheme()))
+                    .toList();
+        } catch (Exception e) {
+            throw new ServiceException("Error retrieving themes for user with id: " + userId + ". " + e.getMessage());
+        }
     }
 }
