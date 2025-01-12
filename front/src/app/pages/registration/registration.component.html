@@ -1,17 +1,14 @@
 <div class="registration-container">
-    <!-- App Bar pour tablette et desktop -->
     <app-app-bar *ngIf="isTablet || (!isMobile && !isTablet)"></app-app-bar>
 
     <button class="back-button" routerLink="/">
         <span class="material-icons">arrow_back</span>
     </button>
 
-    <!-- Logo pour mobile -->
     <div *ngIf="isMobile" class="logo-mobile">
         <img class="logo" src="/assets/logo_p6.png" alt="MDD Logo" (click)="navigateToHome()"/>
     </div>
 
-    <!-- Formulaire d'inscription -->
     <div class="registration-content">
         <h2 class="title">Inscription</h2>
 

@@ -9,10 +9,10 @@
     padding: 1rem;
     text-align: center;
     @media (max-width: 768px) {
-        margin-top: 18vw /* Augmente la margin-top pour mobile */
+        margin-top: 18vw 
     }
     @media (max-width: 500px) {
-        margin-top: 25vw /* Augmente la margin-top pour mobile */
+        margin-top: 25vw 
     }
 
     .profile-title {
@@ -76,12 +76,12 @@
 
     .subscriptions {
         display: grid;
-        grid-template-columns: repeat(2, 1fr); /* 2 colonnes par ligne */
-        gap: 1rem; /* Espacement entre les cartes */
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 1rem; 
         padding-bottom: 3vh;
     
         @media (max-width: 768px) {
-            grid-template-columns: 1fr; /* 1 colonne par ligne en mobile */
+            grid-template-columns: 1fr; 
         }
     
         .subscription-card {

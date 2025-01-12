@@ -21,7 +21,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
-import { HttpClientModule } from '@angular/common/http'; // Importer HttpClientModule
+import { HttpClientModule } from '@angular/common/http'; 
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, RegistrationComponent, AppBarComponent, ConnexionComponent, ArticlesComponent, ThemesComponent, ArticleDetailComponent, CreateArticleComponent, MyAccountComponent, NotFoundComponent],
@@ -35,7 +36,8 @@ import { HttpClientModule } from '@angular/common/http'; // Importer HttpClientM
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSnackBarModule
   ],
   providers: [
     {

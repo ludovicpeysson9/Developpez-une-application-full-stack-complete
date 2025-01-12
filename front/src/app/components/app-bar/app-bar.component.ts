@@ -5,6 +5,10 @@ import { filter } from 'rxjs/operators';
 import { RouteStateService } from 'src/app/services/route-state.service';
 import { AuthService } from '../../services/auth.service';
 
+/**
+ * AppBarComponent is responsible for displaying the application bar.
+ * It handles navigation and menu interactions.
+ */
 @Component({
   selector: 'app-app-bar',
   templateUrl: './app-bar.component.html',
@@ -22,14 +26,12 @@ export class AppBarComponent implements OnInit {
   private clickListener?: () => void;
 
   constructor(private authService: AuthService, private breakpointObserver: BreakpointObserver, private router: Router, private routeStateService: RouteStateService, private renderer: Renderer2, private elementRef: ElementRef) {
-    // Observer pour les mobiles
     this.breakpointObserver.observe([
       '(max-width: 461px)'
     ]).subscribe(result => {
       this.isMobile = result.matches;
     });
 
-    // Observer pour les tablettes
     this.breakpointObserver.observe([
       '(min-width: 462px) and (max-width: 768px)'
     ]).subscribe(result => {
@@ -42,22 +44,16 @@ export class AppBarComponent implements OnInit {
 
     this.routeStateService.getCurrentUrl().subscribe(url => {
       const noAvatarAndTabsRoutes = ['/connexion', '/registration'];
-      // Vérifie si la route actuelle est /myAccount
       this.isActiveAccountPage = url === '/myAccount';
-      
-      // Contrôle de l'affichage de l'avatar et des onglets en fonction des routes spécifiées
       this.showUserAvatar = !noAvatarAndTabsRoutes.includes(url) && this.isLoggedIn;
       this.showTabs = !noAvatarAndTabsRoutes.includes(url) && this.isLoggedIn;
     });
   }
 
-  /*toggleMenu() {
-    console.log("Current menuOpen state before toggle:", this.menuOpen);
-    this.menuOpen = !this.menuOpen;
-    console.log("Current menuOpen state after toggle:", this.menuOpen);
-  }*/
-
-  toggleMenu() {
+  /**
+   * Toggles the menu open or closed.
+   */
+  toggleMenu(): void {
     this.menuOpen = !this.menuOpen;
 
     if (this.menuOpen) {
@@ -67,19 +63,24 @@ export class AppBarComponent implements OnInit {
     }
   }
 
-  private addGlobalClickListener() {
-    this.clickListener = this.renderer.listen('document', 'click', (event: Event) => {
-      const clickedInside = this.elementRef.nativeElement.contains(event.target);
-      if (!clickedInside) {
-        this.menuOpen = false;
-        this.removeGlobalClickListener();
+  /**
+   * Adds a global click listener to close the menu when clicking outside.
+   */
+  private addGlobalClickListener(): void {
+    this.clickListener = () => {
+      if (this.menuOpen) {
+        this.closeMenu();
       }
-    });
+    };
+    document.addEventListener('click', this.clickListener);
   }
 
-  private removeGlobalClickListener() {
+  /**
+   * Removes the global click listener.
+   */
+  private removeGlobalClickListener(): void {
     if (this.clickListener) {
-      this.clickListener();
+      document.removeEventListener('click', this.clickListener);
       this.clickListener = undefined;
     }
   }
@@ -88,30 +89,34 @@ export class AppBarComponent implements OnInit {
     this.removeGlobalClickListener();
   }
 
-
-  /*goToProfile() {
-    // Logique pour rediriger l'utilisateur vers la page de profil
-    this.router.navigate(['/myAccount']);
-  }*/
-
-  setActiveTab(tab: string) {
+  /**
+   * Sets the active tab and closes the menu on mobile.
+   * @param tab - The tab to set as active.
+   */
+  setActiveTab(tab: string): void {
     this.activeTab = tab;
     if (this.isMobile) {
-      this.menuOpen = false; // Ferme le menu après la sélection sur mobile
+      this.menuOpen = false; // Close the menu after selection on mobile
     }
   }
 
-  closeMenu() {
+  /**
+   * Closes the menu.
+   */
+  closeMenu(): void {
     console.log('Backdrop clicked, closing the menu.');
     this.menuOpen = false;
   }
 
-  navigateToHome() {
+  /**
+   * Navigates to the home page.
+   */
+  navigateToHome(): void {
     if (this.isLoggedIn) {
       this.router.navigate(['/articles']);
     } else {
       this.router.navigate(['/']);
     }
   }
-  
+
 }

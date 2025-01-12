@@ -1,14 +1,11 @@
 <div class="app-bar">
     <div class="app-bar-content">
-        <!-- Logo -->
         <img src="/assets/logo_p6.png" alt="MDD Logo" class="logo" (click)="navigateToHome()"/>
 
-        <!-- Bouton menu burger -->
         <button class="menu-button" (click)="toggleMenu()" *ngIf="(isMobile || isTablet) && showTabs">
             <span class="material-icons">menu</span>
         </button>
 
-        <!-- Onglets pour desktop -->
         <div class="app-bar-tabs" *ngIf="!isMobile && !isTablet && showTabs">
             <a class="tab" routerLink="/articles" routerLinkActive="active-tab">Articles</a>
             <a class="tab" routerLink="/themes" routerLinkActive="active-tab">Thèmes</a>
@@ -30,7 +27,6 @@
     </div>
 </div>
 
-<!-- Menu burger -->
 <mat-sidenav-container class="app-bar-container" [ngClass]="{'backdrop-visible': menuOpen}">
     <mat-sidenav #sidenav mode="over" [opened]="menuOpen" (backdropClick)="menuOpen = false" position="end">
         <mat-nav-list>

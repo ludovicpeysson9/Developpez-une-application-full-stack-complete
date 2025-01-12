@@ -47,7 +47,6 @@ h1 {
     flex-direction: column;
     width: 100%;
     max-width: 600px;
-    /* Limite de largeur sur desktop */
 }
 
 .input-field,
@@ -101,7 +100,6 @@ h1 {
         padding: 1rem;
         margin-top: 12vw;
         padding-top: 15vw;
-        /* Ajustement pour tablettes */
     }
 
     .form-container {
@@ -116,7 +114,6 @@ h1 {
 @media (max-width: 461px) {
     .new-article-container {
         margin-top: 15vw;
-        /* Ajustement pour mobiles */
     }
 
     .back-btn {
