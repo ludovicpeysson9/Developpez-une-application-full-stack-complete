@@ -2,7 +2,6 @@
 
     <app-app-bar></app-app-bar>
 
-    <!-- Barre d'actions -->
     <div class="actions">
         <button class="create-article-button" (click)="goToCreateArticle()">Créer un article</button>
         <button class="sort-button" (click)="toggleSort()">
@@ -10,7 +9,6 @@
         </button>
     </div>
 
-    <!-- Liste des articles -->
     <div class="articles-grid">
         <div class="article-card" *ngFor="let article of sortedArticles" (click)="goToArticle(article.id)">
             <span class="article-theme">{{ article.themeTitle }}</span>

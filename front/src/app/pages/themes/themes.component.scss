@@ -1,11 +1,10 @@
-/* Conteneur principal */
 .themes-container {
     padding: 1.5rem;
     font-family: 'Inter', sans-serif;
     margin-top: 15vh;
 }
 
-/* Barre d'actions */
+
 .actions {
     display: flex;
     justify-content: space-between;
@@ -25,7 +24,7 @@
     background-color: #5b4ab2;
 }
 
-/* Grille des thèmes */
+
 .themes-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -38,7 +37,7 @@
     }
 }
 
-/* Carte de thème */
+
 .theme-card {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -85,8 +84,8 @@
 
 @media (max-width: 768px) {
     .subscribe-button {
-        width: 50vw; /* Ajuste la largeur du bouton à 50% du conteneur pour une meilleure manipulation */
-        font-size: 2.8vw; /* Augmente la taille de la police pour une meilleure lisibilité sur les petits écrans */
-        padding: 12px 0; /* Augmente légèrement le padding pour mieux s'adapter au texte plus grand */
+        width: 50vw; 
+        font-size: 2.8vw; 
+        padding: 12px 0; 
     }
 }

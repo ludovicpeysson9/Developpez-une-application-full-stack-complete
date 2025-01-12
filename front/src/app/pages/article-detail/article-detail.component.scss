@@ -1,6 +1,6 @@
 .article-detail-container {
     padding: 1rem;
-    margin-top: calc(6.5vw + 1rem); /* Responsive margin-top pour éviter qu'elle soit cachée sous la appbar */
+    margin-top: calc(6.5vw + 1rem); 
     box-sizing: border-box;
 
     .back-button {
@@ -30,8 +30,8 @@
     .article-content {
         width: 100%;
         max-width: 800px;
-        margin: 0 auto; /* Centre le contenu */
-        text-align: left; /* Alignement à gauche */
+        margin: 0 auto; 
+        text-align: left; 
         padding-top: 8vw;
 
         @media (max-width: 1180px) {
@@ -45,7 +45,7 @@
         .article-title {
             font-size: 2rem;
             font-weight: bold;
-            color: #333; /* Titre en noir */
+            color: #333; 
             margin-bottom: 1rem;
         }
 
@@ -154,17 +154,17 @@
                 justify-content: center;
                 align-items: center;
                 padding: 0;
-                width: 50px;  /* Taille fixe pour le bouton */
-                height: 50px;  /* Taille fixe pour le bouton */
-                overflow: hidden;  /* Ajuster la hauteur du canvas */
+                width: 50px;  
+                height: 50px; 
+                overflow: hidden;  
                 transition: transform 0.3s ease;
 
                 position: absolute;
-                right: -45px; /* Positionner le bouton à droite dans le textarea */
+                right: -45px;
                 top: 50%;
                 transform: translateY(-50%);
-                width: 40px; /* Taille fixe pour le bouton */
-                height: 40px; /* Taille fixe pour le bouton */
+                width: 40px; 
+                height: 40px; 
 
                 .material-icons {
                     font-size: 1.5rem;
@@ -178,28 +178,28 @@
             }
 
             button:hover img {
-                transform: translateY(-2px); /* Déplacer l'image légèrement vers le haut à l'hover */
+                transform: translateY(-2px); 
                 filter: drop-shadow(0px 4px 6px rgba(0, 0, 0, 0.1));
             }
         }
         @media (max-width: 768px) {
             .add-comment {
-                flex-direction: row; /* Garde en ligne mais ajuste les éléments pour petits écrans */
-                align-items: center; /* S'assurer que les éléments sont centrés verticalement */
+                flex-direction: row;
+                align-items: center; 
             }
         
             .add-comment textarea {
-                width: 100%; /* Prendre toute la largeur */
-                padding-right: 50px; /* Espace pour le bouton à l'intérieur du textarea */
+                width: 100%; 
+                padding-right: 50px; 
             }
         
             .add-comment button {
                 position: absolute;
-                right: 25px; /* Aligner le bouton à droite à l'intérieur du textarea */
+                right: 25px; 
                 top: 32px;
-                height: 100%; /* Ajuster la hauteur du bouton pour correspondre à celle du textarea */
-                margin-top: 0; /* Pas de marge supérieure */
-                width: 40px; /* Largeur réduite pour le bouton */
+                height: 100%;
+                margin-top: 0; 
+                width: 40px; 
                 justify-content: flex-end;
                 background: transparent;
             }

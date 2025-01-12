@@ -2,7 +2,6 @@
     <app-app-bar></app-app-bar>
 
     <div class="profile-content">
-        <!-- Profil utilisateur -->
         <h1 class="profile-title">Profil utilisateur</h1>
         <form class="profile-form">
             <input type="text" name="username" class="profile-input" placeholder="Username" [(ngModel)]="username">
@@ -13,7 +12,6 @@
 
         <hr class="separator">
 
-        <!-- Abonnements -->
         <h2 class="subscriptions-title">Abonnements</h2>
         <div class="subscriptions">
             <div class="subscription-card" *ngFor="let theme of subscriptions">

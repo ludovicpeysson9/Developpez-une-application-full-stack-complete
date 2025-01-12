@@ -1,12 +1,10 @@
 <div class="article-detail-container">
     <app-app-bar></app-app-bar>
 
-    <!-- Bouton retour -->
     <button class="back-button" routerLink="/articles">
         <span class="material-icons">arrow_back</span>
     </button>
 
-    <!-- Détails de l'article -->
     <div class="article-content" *ngIf="article">
         <h1 class="article-title">{{ article.title }}</h1>
         <div class="article-meta">
@@ -16,13 +14,10 @@
         </div>
         <p class="article-body">{{ article.content }}</p>
 
-        <!-- Ligne de séparation -->
         <hr />
 
-        <!-- Section des commentaires -->
         <div class="comments-section">
             <h2>Commentaires</h2>
-            <!-- Liste des commentaires -->
             <div class="comment" *ngFor="let comment of comments">
                 <div class="comment-avatar">
                     <div class="avatar-icon">{{ comment.ownerUsername[0] }}</div>
@@ -33,7 +28,6 @@
                 </div>
             </div>
 
-            <!-- Formulaire d'ajout de commentaire -->
             <div class="add-comment">
                 <textarea [(ngModel)]="newComment" placeholder="Ajouter un commentaire"></textarea>
                 <button (click)="addComment()">

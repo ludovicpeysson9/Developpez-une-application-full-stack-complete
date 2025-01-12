@@ -1,9 +1,7 @@
-/* Conteneur principal */
 .articles-container {
     font-family: 'Inter', sans-serif;
 }
 
-/* Barre d'actions */
 .actions {
     display: flex;
     justify-content: space-between;
@@ -21,7 +19,6 @@
     }
 }
 
-/* Bouton "Créer un article" */
 .create-article-button {
     font-size: 1rem;
     font-weight: bold;
@@ -38,10 +35,9 @@
 }
 
 .create-article-button:hover {
-    background-color: #5b4ab2; /* Couleur légèrement plus foncée */
+    background-color: #5b4ab2; 
 }
 
-/* Bouton "Trier par" */
 .sort-button {
     display: flex;
     align-items: center;
@@ -56,20 +52,18 @@
     font-size: 1.5rem;
 }
 
-/* Grille des articles */
 .articles-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Deux colonnes par défaut */
+    grid-template-columns: repeat(2, 1fr); 
     gap: 4vw;
     width: 98%;
     margin: auto;
     padding-bottom: 5vh;
     @media (max-width: 768px) {
-        grid-template-columns: 1fr; /* Une seule colonne sur mobile */
+        grid-template-columns: 1fr;
     }
 }
 
-/* Card d'article */
 .article-card {
     border: 1px solid #e0e0e0;
     border-radius: 8px;
@@ -99,7 +93,7 @@
     font-size: 1rem;
     color: #333333;
     display: -webkit-box;
-    -webkit-line-clamp: 5; /* Affiche maximum 5 lignes */
+    -webkit-line-clamp: 5; 
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;

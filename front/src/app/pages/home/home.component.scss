@@ -1,69 +1,65 @@
-/* Conteneur principal */
 .home-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Centre verticalement */
-  align-items: center; /* Centre horizontalement */
-  height: 100vh; /* Pleine hauteur */
-  background-color: #ffffff; /* Fond blanc */
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+  background-color: #ffffff;
   text-align: center;
   padding: 1rem;
   box-sizing: border-box;
 }
 
-/* Logo */
 .logo {
-  width: 35vw; /* Taille plus grande pour le logo */
-  margin-bottom: 3rem; /* Espacement sous le logo */
+  width: 35vw; 
+  margin-bottom: 3rem; 
 }
 
-/* Groupe de boutons */
 .button-group {
   display: flex;
-  flex-direction: row; /* Alignement horizontal par défaut */
-  gap: 8rem; /* Grand espacement entre les boutons */
+  flex-direction: row; 
+  gap: 8rem;
 }
 
-/* Boutons */
 .action-button {
   width: 14.5vw;
-  font-size: 1.1vw; /* Taille de police augmentée */
-  font-weight: 600; /* Police en gras */
-  padding: 0.8rem 1.5rem; /* Boutons plus gros */
-  color: #000000; /* Texte noir */
-  background-color: #ffffff; /* Fond blanc */
-  border: 2px solid #000000; /* Bordure noire */
-  border-radius: 8px; /* Coins arrondis */
+  font-size: 1.1vw; 
+  font-weight: 600; 
+  padding: 0.8rem 1.5rem; 
+  color: #000000; 
+  background-color: #ffffff; 
+  border: 2px solid #000000; 
+  border-radius: 8px; 
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-/* Effet hover */
+
 .action-button:hover {
-  background-color: #f0f0f0; /* Légère teinte grise au survol */
+  background-color: #f0f0f0; 
 }
 
-/* Responsive pour mobile */
+
 @media (max-width: 768px) {
   .button-group {
-    flex-direction: column; /* Boutons en colonne */
-    gap: 1.5rem; /* Réduction de l'espacement entre les boutons */
+    flex-direction: column; 
+    gap: 1.5rem; 
   }
 
   .logo {
-    width: 50vw; /* Logo réduit pour les petits écrans */
-    margin-bottom: 2rem; /* Espacement ajusté */
+    width: 50vw; 
+    margin-bottom: 2rem; 
   }
 
   .action-button {
     width: 40vw;
-    font-size: 2vw; /* Taille de police augmentée */
-    font-weight: 600; /* Police en gras */
-    padding: 0.8rem 1.5rem; /* Boutons plus gros */
-    color: #000000; /* Texte noir */
-    background-color: #ffffff; /* Fond blanc */
-    border: 2px solid #000000; /* Bordure noire */
-    border-radius: 8px; /* Coins arrondis */
+    font-size: 2vw; 
+    font-weight: 600; 
+    padding: 0.8rem 1.5rem; 
+    color: #000000; 
+    background-color: #ffffff; 
+    border: 2px solid #000000; 
+    border-radius: 8px; 
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
