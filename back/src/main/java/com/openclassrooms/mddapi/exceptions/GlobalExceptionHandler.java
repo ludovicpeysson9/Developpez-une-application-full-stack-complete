@@ -21,8 +21,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
-        return new ResponseEntity<>("Resource not found: " + ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<Void> handleResourceNotFoundException(ResourceNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(ArticleCreationException.class)
@@ -50,9 +50,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("Subscription error: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @ExceptionHandler(ThemeNotFoundException.class)
+    /*@ExceptionHandler(ThemeNotFoundException.class)
     public ResponseEntity<String> handleThemeNotFoundException(ThemeNotFoundException ex, WebRequest request) {
         return new ResponseEntity<>("Theme not found: " + ex.getMessage(), HttpStatus.NOT_FOUND);
+    } */
+
+    @ExceptionHandler(ThemeNotFoundException.class)
+    public ResponseEntity<Void> handleThemeNotFoundException(ThemeNotFoundException ex, WebRequest request) {
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @ExceptionHandler(UserNotFoundException.class)

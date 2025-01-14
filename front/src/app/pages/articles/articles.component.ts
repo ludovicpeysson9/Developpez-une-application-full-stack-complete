@@ -33,6 +33,7 @@ export class ArticlesComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('localStorage:', JSON.stringify(localStorage));
     this.breakpointObserver.observe([
       '(max-width: 768px)',
       '(min-width: 769px) and (max-width: 960px)'

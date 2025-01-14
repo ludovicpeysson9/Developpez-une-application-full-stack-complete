@@ -24,21 +24,32 @@ module.exports = function (config) {
     jasmineHtmlReporter: {
       suppressAll: true // removes the duplicated traces
     },
-    coverageReporter: {
+    /*coverageReporter: {
       dir: require('path').join(__dirname, './coverage/front'),
       subdir: '.',
       reporters: [
         { type: 'html' },
         { type: 'text-summary' }
       ]
+    },*/
+    coverageReporter: {
+      dir: require('path').join(__dirname, './coverage/front'),
+      subdir: '.',
+      reporters: [
+        { type: 'html' },
+        { type: 'lcov' },  // Ajouter lcov pour un format lisible par des outils comme sonarqube
+        { type: 'text-summary' }
+      ]
     },
+    
+
     reporters: ['progress', 'kjhtml'],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: true,
     browsers: ['Chrome'],
-    singleRun: false,
+    singleRun: true,
     restartOnFileChange: true
   });
 };

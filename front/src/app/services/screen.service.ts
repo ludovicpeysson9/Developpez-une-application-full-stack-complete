@@ -26,6 +26,15 @@ export class ScreenService {
     }
 
     /**
+ * Checks if the screen width is tablet size.
+ * @returns A boolean indicating if the screen width is tablet size.
+ */
+    isTablet(): boolean {
+        const width = this.screenWidth.getValue();
+        return width >= 769 && width <= 960;
+    }
+
+    /**
    * Returns an observable to observe screen width changes.
    * @returns An Observable of screen width.
    */
