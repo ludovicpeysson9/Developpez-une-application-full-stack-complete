@@ -1,25 +1,75 @@
-# P6-Full-Stack-reseau-dev
+# MDD Project Setup
 
-## Front
+This is the setup guide for the **MDD (Monde de Dév)** project. Follow the steps below to set up the database, backend, and frontend.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.3.
+## 1. Setting Up the Database
 
-Don't forget to install your node_modules before starting (`npm install`).
+To begin, you need to create the required database and tables for the project. Run the following SQL script on your MySQL/MariaDB database:
 
-### Development server
+```sql
+CREATE TABLE "users" (
+  "id" int NOT NULL AUTO_INCREMENT,
+  "username" varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  "email" varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  "password" varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY ("id"),
+  UNIQUE KEY "Email" ("email")
+);
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+CREATE TABLE "themes" (
+  "id" int NOT NULL AUTO_INCREMENT,
+  "title" varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  "content" text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY ("id")
+);
 
-### Build
+CREATE TABLE "articles" (
+  "id" int NOT NULL AUTO_INCREMENT,
+  "title" varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  "date" datetime DEFAULT CURRENT_TIMESTAMP,
+  "author" int NOT NULL,
+  "content" text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY ("id"),
+  KEY "Author" ("author"),
+  CONSTRAINT "articles_ibfk_1" FOREIGN KEY ("author") REFERENCES "users" ("id") ON DELETE CASCADE
+);
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+CREATE TABLE "comments" (
+  "id" int NOT NULL AUTO_INCREMENT,
+  "owner_id" int NOT NULL,
+  "article_id" int NOT NULL,
+  "content" text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  PRIMARY KEY ("id"),
+  KEY "Owner" ("owner_id"),
+  KEY "Article" ("article_id"),
+  CONSTRAINT "comments_ibfk_1" FOREIGN KEY ("owner_id") REFERENCES "users" ("id") ON DELETE CASCADE,
+  CONSTRAINT "comments_ibfk_2" FOREIGN KEY ("article_id") REFERENCES "articles" ("id") ON DELETE CASCADE
+);
 
-### Where to start
+CREATE TABLE "articles_themes" (
+  "article_id" int NOT NULL,
+  "theme_id" int NOT NULL,
+  PRIMARY KEY ("article_id","theme_id"),
+  KEY "ThemeId" ("theme_id"),
+  CONSTRAINT "articles_themes_ibfk_1" FOREIGN KEY ("article_id") REFERENCES "articles" ("id") ON DELETE CASCADE,
+  CONSTRAINT "articles_themes_ibfk_2" FOREIGN KEY ("theme_id") REFERENCES "themes" ("id") ON DELETE CASCADE
+);
 
-As you may have seen if you already started the app, a simple home page containing a logo, a title and a button is available. If you take a look at its code (in the `home.component.html`) you will see that an external UI library is already configured in the project.
+CREATE TABLE "abonnements" (
+  "user_id" int NOT NULL,
+  "theme_id" int NOT NULL,
+  PRIMARY KEY ("user_id","theme_id"),
+  KEY "ThemeId" ("theme_id"),
+  CONSTRAINT "abonnements_ibfk_1" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE CASCADE,
+  CONSTRAINT "abonnements_ibfk_2" FOREIGN KEY ("theme_id") REFERENCES "themes" ("id") ON DELETE CASCADE
+);
+```
 
-This library is `@angular/material`, it's one of the most famous in the angular ecosystem. As you can see on their docs (https://material.angular.io/), it contains a lot of highly customizable components that will help you design your interfaces quickly.
+## 2. Setting Up the application
 
-Note: I recommend to use material however it's not mandatory, if you prefer you can get ride of it.
+You'll find the instructions of the API and the FrontEnd Application in their respective directory. 
+We recommand to proceed in this order : 
 
-Good luck!
+1. Create the database
+2. Install the API
+3. Install the FrontEnd Application
