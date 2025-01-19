@@ -24,6 +24,7 @@
                 </div>
                 <div class="comment-content">
                     <span class="comment-username">{{ comment.ownerUsername }}</span>
+                    <span class="comment-date"> le {{ comment.date | date:'dd/MM/yyyy' }} à {{ comment.date | date:'HH:mm' }}</span>
                     <p>{{ comment.content }}</p>
                 </div>
             </div>

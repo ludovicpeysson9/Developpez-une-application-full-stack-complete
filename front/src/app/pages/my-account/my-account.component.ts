@@ -18,6 +18,7 @@ export class MyAccountComponent implements OnInit {
 
   username: string | null = '';
   email: string | null = '';
+  password: string = '';
   subscriptions: Theme[] = [];
 
   constructor(private router: Router, private themeService: ThemeService, private authService: AuthService, private snackBar: MatSnackBar) { }
@@ -46,7 +47,13 @@ export class MyAccountComponent implements OnInit {
   saveProfile(): void {
     const userId = this.authService.getUserId();
     if (userId && this.username && this.email && this.email.includes('@')) {
-      this.authService.updateUser(parseInt(userId, 10), this.username, this.email).subscribe({
+      if (this.password && !this.isValidPassword(this.password)) {
+        this.snackBar.open('Le mot de passe doit contenir au moins 8 caractères, dont au moins 1 chiffre, une lettre minuscule, une lettre majuscule et un caractère spécial.', 'Fermer', {
+          duration: 4000,
+        });
+        return;
+      }
+      this.authService.updateUser(parseInt(userId, 10), this.username, this.email, this.password).subscribe({
         next: () => {
           localStorage.setItem('username', this.username as string);
           localStorage.setItem('email', this.email as string);
@@ -66,6 +73,16 @@ export class MyAccountComponent implements OnInit {
         duration: 2000,
       });
     }
+  }
+
+  /**
+ * Validates the password.
+ * @param password - The password to validate.
+ * @returns A boolean indicating if the password is valid.
+ */
+  private isValidPassword(password: string): boolean {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
   }
 
   /**

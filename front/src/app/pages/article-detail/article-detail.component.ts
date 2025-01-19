@@ -73,8 +73,12 @@ export class ArticleDetailComponent implements OnInit {
       };
 
       this.commentService.createComment(newComment).subscribe((comment) => {
-        this.comments.push(comment);
+        if (!this.comments) {
+          this.comments = [];
+        }
+        //this.comments.push(comment);
         this.newComment = '';
+        this.loadComments(this.article!.id);
       });
     }
   }

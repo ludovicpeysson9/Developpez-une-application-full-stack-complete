@@ -4,4 +4,5 @@ export interface Comment {
     ownerId: number;
     articleId: number;
     ownerUsername: string;
+    date?: string;
 }

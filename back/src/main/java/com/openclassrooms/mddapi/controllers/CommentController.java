@@ -44,6 +44,7 @@ public class CommentController {
     public ResponseEntity<CommentDto> createComment(@RequestBody CommentDto commentDto) {
         try {
             CommentDto createdComment = commentService.createComment(commentDto);
+            System.out.println(createdComment);
             return ResponseEntity.ok(createdComment);
         } catch (Exception e) {
             throw new CommentCreationException("Error creating comment: " + e.getMessage());

@@ -52,8 +52,8 @@ describe('ArticleDetailComponent', () => {
   it('should load article and comments on init', () => {
     const mockArticle: Article = { id: 1, title: 'Test Article', content: 'Content', authorId: 1, themeId: 1, themeTitle: 'Theme', date: '2023-01-01', articleAuthor: 'Author' };
     const mockComments: Comment[] = [
-      { id: 1, content: 'Test Comment 1', ownerId: 1, ownerUsername: 'User1', articleId: 1 },
-      { id: 2, content: 'Test Comment 2', ownerId: 2, ownerUsername: 'User2', articleId: 1 }
+      { id: 1, content: 'Test Comment 1', ownerId: 1, ownerUsername: 'User1', articleId: 1, date: '2023-01-01T12:00:00Z' },
+      { id: 2, content: 'Test Comment 2', ownerId: 2, ownerUsername: 'User2', articleId: 1, date: '2023-01-02T12:00:00Z' }
     ];
 
     articleServiceSpy.getArticleById.and.returnValue(of(mockArticle));

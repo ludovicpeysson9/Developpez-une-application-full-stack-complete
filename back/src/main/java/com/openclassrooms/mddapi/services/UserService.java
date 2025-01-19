@@ -7,15 +7,21 @@ import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.UserMapper;
 import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.services.interfaces.UserServiceInterface;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.regex.Pattern;
+
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserServiceInterface {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -35,6 +41,7 @@ public class UserService implements UserServiceInterface {
             User user = findUserById(id);
             updateUsername(user, userUpdateRequest.getUsername());
             updateEmail(user, userUpdateRequest.getEmail());
+            updatePassword(user, userUpdateRequest.getPassword());
             userRepository.save(user);
             return UserMapper.toDto(user);
         } catch (Exception e) {
@@ -59,5 +66,20 @@ public class UserService implements UserServiceInterface {
             System.out.println("Updating email to: " + email);
             user.setEmail(email);
         }
+    }
+
+    private void updatePassword(User user, String password) {
+        if (password != null && !password.isEmpty()) {
+            if (isValidPassword(password)) {
+                user.setPassword(passwordEncoder.encode(password));
+            } else {
+                throw new ServiceException("Password does not meet the required criteria");
+            }
+        }
+    }
+
+    private boolean isValidPassword(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        return Pattern.matches(passwordPattern, password);
     }
 }
