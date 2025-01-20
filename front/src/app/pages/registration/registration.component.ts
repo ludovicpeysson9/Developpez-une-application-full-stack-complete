@@ -37,6 +37,19 @@ export class RegistrationComponent implements OnInit {
  * Handles the registration form submission.
  */
   onSubmit() {
+    if (!this.isValidPassword(this.password)) {
+      this.snackBar.open('Le mot de passe doit contenir au moins 8 caractères, dont au moins 1 chiffre, une lettre minuscule, une lettre majuscule et un caractère spécial.', 'Fermer', {
+        duration: 4000,
+      });
+      return;
+    }
+
+    console.log('Sending registration data:', {
+      username: this.username,
+      email: this.email,
+      password: this.password
+    });
+
     this.authService.register(this.username, this.email, this.password).subscribe(
       response => {
         localStorage.setItem('user_id', response.id);
@@ -53,6 +66,16 @@ export class RegistrationComponent implements OnInit {
         });
       }
     );
+  }
+
+  /**
+   * Validates the password.
+   * @param password - The password to validate.
+   * @returns A boolean indicating if the password is valid.
+   */
+  private isValidPassword(password: string): boolean {
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return passwordRegex.test(password);
   }
 
   /**

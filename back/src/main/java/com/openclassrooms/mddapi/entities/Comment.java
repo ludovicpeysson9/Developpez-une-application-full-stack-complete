@@ -1,5 +1,7 @@
 package com.openclassrooms.mddapi.entities;
 
+import java.util.Date;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,4 +28,7 @@ public class Comment {
 
     @Column(name = "content")
     private String content;
+
+    @Column(name = "date", nullable = false, updatable = false, insertable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    private Date date;
 }

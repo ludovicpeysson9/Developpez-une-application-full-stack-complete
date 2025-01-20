@@ -12,25 +12,24 @@
 
 .back-button {
     position: absolute;
-    top: 120px;
-    left: 50px;
+    top: 5vw;
+    left: 3vw;
     background: none;
     border: none;
     cursor: pointer;
     color: black;
-
-    span{
-        font-size: 5vw;
-    }
+    width: 5vw;
 
     @media (max-width: 1180px) {
-        top: 100px;
-        left: 30px;
+        top: 6vw;
+        left: 3vw;
+        width: 6vw;
     }
 
     @media (max-width: 768px) {
-        top: 110px;
-        left: 20px;
+        top: 9vw;
+        left: 3vw;
+        width: 8vw;
     }
 }
 

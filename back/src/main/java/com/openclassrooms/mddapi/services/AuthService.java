@@ -10,6 +10,9 @@ import com.openclassrooms.mddapi.repositories.UserRepository;
 import com.openclassrooms.mddapi.security.CustomUserDetails;
 import com.openclassrooms.mddapi.services.interfaces.AuthServiceInterface;
 import com.openclassrooms.mddapi.config.JwtUtils;
+
+import java.util.regex.Pattern;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -48,6 +51,7 @@ public class AuthService implements AuthServiceInterface {
     public AuthResponse register(RegisterRequest registerRequest) {
         try {
             validateNewUser(registerRequest);
+            validatePasswordForRegistration(registerRequest.getPassword());
             User user = createUser(registerRequest);
             String token = jwtUtils.generateJwtToken(user.getId());
             return new AuthResponse(user.getId(), user.getUsername(), user.getEmail(), token);
@@ -92,5 +96,12 @@ public class AuthService implements AuthServiceInterface {
         user.setEmail(registerRequest.getEmail());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         return userRepository.save(user);
+    }
+
+    private void validatePasswordForRegistration(String password) {
+        String passwordPattern = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        if (!Pattern.matches(passwordPattern, password)) {
+            throw new RegistrationException("Password does not meet the required criteria");
+        }
     }
 }

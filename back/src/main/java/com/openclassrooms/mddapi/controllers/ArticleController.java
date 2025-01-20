@@ -5,6 +5,8 @@ import com.openclassrooms.mddapi.exceptions.ArticleCreationException;
 import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.services.UserSecurityService;
 import com.openclassrooms.mddapi.services.interfaces.ArticleServiceInterface;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -41,11 +43,13 @@ public class ArticleController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<ArticleDto> getArticleById(@PathVariable Integer id) {
-        ArticleDto article = articleService.getArticleById(id);
-        if (article != null) {
+        try {
+            ArticleDto article = articleService.getArticleById(id);
             return ResponseEntity.ok(article);
-        } else {
-            throw new ResourceNotFoundException("Article not found with id: " + id);
+        } catch (ResourceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
 

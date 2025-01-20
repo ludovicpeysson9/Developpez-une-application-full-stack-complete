@@ -55,8 +55,8 @@ public class CommentService implements CommentServiceInterface {
                     .orElseThrow(() -> new ServiceException("Article not found with id: " + commentDto.getArticleId()));
             comment.setArticle(article);
 
-            commentRepository.save(comment);
-            return commentMapper.toDTO(comment);
+            Comment savedComment = commentRepository.save(comment);
+            return commentMapper.toDTO(savedComment);
         } catch (Exception e) {
             throw new ServiceException("Error creating comment: " + e.getMessage());
         }

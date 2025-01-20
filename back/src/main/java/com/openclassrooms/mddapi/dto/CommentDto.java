@@ -1,6 +1,7 @@
 package com.openclassrooms.mddapi.dto;
 
 import lombok.Data;
+import java.util.Date;
 
 @Data
 public class CommentDto {
@@ -9,4 +10,5 @@ public class CommentDto {
     private Integer ownerId;
     private Integer articleId;
     private String ownerUsername;
+    private Date date;
 }

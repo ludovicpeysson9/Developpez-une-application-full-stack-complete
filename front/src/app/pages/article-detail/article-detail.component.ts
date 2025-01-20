@@ -41,11 +41,20 @@ export class ArticleDetailComponent implements OnInit {
    * @param articleId - The ID of the article to load.
    */
   private loadArticle(articleId: number): void {
-    this.articleService.getArticleById(articleId).subscribe((article) => {
-      this.article = article;
+    this.articleService.getArticleById(articleId).subscribe({
+      next: (article) => {
+        this.article = article;
+      },
+      error: (error) => {
+        if (error.message === 'Article not found') {
+          this.router.navigate(['/404']);
+        } else {
+          console.error('An error occurred:', error);
+        }
+      }
     });
   }
-
+  
   /**
    * Loads the comments for the article by its ID.
    * @param articleId - The ID of the article to load comments for.
@@ -73,8 +82,12 @@ export class ArticleDetailComponent implements OnInit {
       };
 
       this.commentService.createComment(newComment).subscribe((comment) => {
-        this.comments.push(comment);
+        if (!this.comments) {
+          this.comments = [];
+        }
+        //this.comments.push(comment);
         this.newComment = '';
+        this.loadComments(this.article!.id);
       });
     }
   }

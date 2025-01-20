@@ -4,6 +4,12 @@ import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 
+interface UpdateUserRequest {
+    username: string;
+    email: string;
+    password?: string;
+}
+
 /**
  * AuthService is responsible for handling authentication-related operations.
  * It interacts with the backend API to login, register, and manage user tokens.
@@ -106,11 +112,12 @@ export class AuthService {
    * @param email - The new email.
    * @returns An Observable of any type.
    */
-    updateUser(userId: number, username: string, email: string): Observable<any> {
+    updateUser(userId: number, username: string, email: string, password?: string): Observable<any> {
         const token = this.getToken();
         const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
         const url = `${this.apiUrl}/user/${userId}`;
-        return this.http.put<any>(url, { username, email }, { headers }).pipe(
+        const body: UpdateUserRequest = { username, email, password };
+        return this.http.put<any>(url, body, { headers }).pipe(
             catchError(this.handleError)
         );
     }

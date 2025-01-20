@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { Article, ArticleInput } from './../models/article.model';
 import { AuthService } from './auth.service';
 
@@ -34,7 +34,12 @@ export class ArticleService {
    */
   getArticleById(id: number): Observable<Article> {
     return this.http.get<Article>(`${this.apiUrl}/${id}`).pipe(
-      catchError(this.handleError)
+      catchError((error: HttpErrorResponse) => {
+        if (error.status === 404) {
+          return throwError(() => new Error('Article not found'));
+        }
+        return this.handleError(error);
+      })
     );
   }
 

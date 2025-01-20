@@ -6,6 +6,7 @@
         <form class="profile-form">
             <input type="text" name="username" class="profile-input" placeholder="Username" [(ngModel)]="username">
             <input type="email" name="email" class="profile-input" placeholder="email@email.fr" [(ngModel)]="email">
+            <input type="password" name="password" class="profile-input" placeholder="Nouveau mot de passe" [(ngModel)]="password">
             <button type="button" class="save-btn" (click)="saveProfile()">Sauvegarder</button>
             <button type="button" class="logout-btn" (click)="logout()">Se déconnecter</button>
         </form>
