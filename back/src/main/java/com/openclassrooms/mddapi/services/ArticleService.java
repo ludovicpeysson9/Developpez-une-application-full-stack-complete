@@ -3,6 +3,7 @@ package com.openclassrooms.mddapi.services;
 import com.openclassrooms.mddapi.dto.ArticleDto;
 import com.openclassrooms.mddapi.entities.Article;
 import com.openclassrooms.mddapi.entities.User;
+import com.openclassrooms.mddapi.exceptions.ResourceNotFoundException;
 import com.openclassrooms.mddapi.exceptions.ServiceException;
 import com.openclassrooms.mddapi.mappers.ArticleMapper;
 import com.openclassrooms.mddapi.repositories.ArticleRepository;
@@ -44,8 +45,10 @@ public class ArticleService implements ArticleServiceInterface {
     public ArticleDto getArticleById(Integer id) {
         try {
             Article article = articleRepository.findById(id)
-                    .orElseThrow(() -> new ServiceException("Article not found with id: " + id));
+                    .orElseThrow(() -> new ResourceNotFoundException("Article not found with id: " + id));
             return articleMapper.toDTO(article);
+        } catch (ResourceNotFoundException e) {
+            throw e; 
         } catch (Exception e) {
             throw new ServiceException("Error retrieving article by id: " + e.getMessage());
         }

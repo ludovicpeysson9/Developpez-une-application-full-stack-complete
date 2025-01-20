@@ -5,7 +5,7 @@
     <div class="actions">
         <button class="create-article-button" (click)="goToCreateArticle()">Créer un article</button>
         <button class="sort-button" (click)="toggleSort()">
-            {{ getSortLabel() }} <span class="material-icons">{{ getSortIcon() }}</span>
+            Trier par <img [src]="getSortIcon()" [ngClass]="{'rotate-up': sortType === 'dateAsc', 'sort-icon':true }" alt="Sort Icon" />
         </button>
     </div>
 

@@ -73,16 +73,13 @@
 
 .back-button {
     position: absolute;
-    top: 100px;
-    left: 50px;
+    top: 5vw;
+    left: 3vw;
     background: none;
     border: none;
     cursor: pointer;
     color: black;
 
-    span{
-        font-size: 5vw;
-    }
 }
 
 
@@ -106,11 +103,8 @@
     }
 
     .back-button {
-        top: 40px;
-        left: 30px;
-
-        span{
-            font-size: 10vw;
-        }
+        top: 4vw;
+        left: 4vw;
+        width: 10vw;
     }
 }

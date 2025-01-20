@@ -68,6 +68,15 @@ export class ArticlesComponent implements OnInit {
     });
   }
 
+  toggleSort(): void {
+    if (this.sortType === 'dateAsc') {
+      this.sortType = 'dateDesc';
+    } else {
+      this.sortType = 'dateAsc';
+    }
+    this.sortArticles();
+  }
+
   /**
  * Sorts the articles based on the selected sort type.
  */
@@ -79,45 +88,9 @@ export class ArticlesComponent implements OnInit {
       case 'dateDesc':
         this.sortedArticles = this.articles.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
         break;
-      case 'theme':
-        const subscribedThemeIds = (this.userSubscriptions || []).map(theme => theme.id);
-        this.sortedArticles = this.articles.filter(article => subscribedThemeIds.includes(article.themeId));
-        console.log('Filtered Articles by Subscribed Themes:', this.sortedArticles);
-        break;
       default:
         this.sortedArticles = this.articles;
         break;
-    }
-  }
-
-  /**
- * Toggles the sort type and sorts the articles.
- */
-  toggleSort(): void {
-    if (this.sortType === 'dateAsc') {
-      this.sortType = 'dateDesc';
-    } else if (this.sortType === 'dateDesc') {
-      this.sortType = 'theme';
-    } else {
-      this.sortType = 'dateAsc';
-    }
-    this.sortArticles();
-  }
-
-  /**
- * Gets the label for the current sort type.
- * @returns The label for the current sort type.
- */
-  getSortLabel(): string {
-    switch (this.sortType) {
-      case 'dateAsc':
-        return 'Trier par date (ancien au récent)';
-      case 'dateDesc':
-        return 'Trier par date (récent au ancien)';
-      case 'theme':
-        return 'Trier par thème';
-      default:
-        return 'Trier par';
     }
   }
 
@@ -126,7 +99,7 @@ export class ArticlesComponent implements OnInit {
  * @returns The icon for the current sort type.
  */
   getSortIcon(): string {
-    return this.sortType === 'dateDesc' ? 'arrow_drop_up' : 'arrow_drop_down';
+    return 'assets/ArrowDown.png';
   }
 
   /**
